@@ -11,6 +11,10 @@ import Groups from '@/components/Groups/Groups'
 import addgroup from '@/components/Groups/AddGroup'
 import editgroup from '@/components/Groups/EditGroup'
 
+import Points from '@/components/Points/Points'
+import addpoint from '@/components/Points/AddPoint'
+import editpoint from '@/components/Points/EditPoint'
+
 Vue.use(Router)
 
 export default new Router({
@@ -50,6 +54,21 @@ export default new Router({
       path: '/groups/:id/edit',
       name: 'editgroup',
       component: editgroup
+    },
+    {
+      path: '/points',
+      name: 'Points',
+      component: Points
+    },
+    {
+      path: '/points/add',
+      name: 'addpoint',
+      component: addpoint
+    },
+    {
+      path: '/points/:id/edit',
+      name: 'editpoint',
+      component: editpoint
     }
   ]
 })
