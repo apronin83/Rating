@@ -8,18 +8,18 @@
       <table>
         <tr>
           <td>Название</td>
-          <td  align="center">Редактирование</td>
-          <td  align="center">Удаление</td>
+          <td  align="center">Редактировать</td>
+          <td  align="center">Удалить</td>
         </tr>
         <tr v-for="artifact in artifacts" v-bind:key="artifact._id">
           <td>{{ artifact.name }}</td>
           <td align="center">
             <router-link
               v-bind:to="{ name: 'editartifact', params: { id: artifact._id } }"
-            >Редактировать</router-link>
+            ><md-icon>create</md-icon></router-link>
           </td>
           <td align="center">
-            <a href="#" @click="deleteArtifact(artifact._id)">Удалить</a>
+            <a href="#" @click="deleteArtifact(artifact._id)"><md-icon>delete</md-icon></a>
           </td>
         </tr>
       </table>
@@ -77,9 +77,16 @@ export default {
   margin: 0 auto;
   text-align: center;
 }
+.table-wrap div {
+  margin-bottom: 1vh;
+}
+table {
+  margin: auto;
+}
 table th,
 table tr {
   text-align: left;
+  cursor: default;
 }
 table thead {
   background: #f2f2f2;
