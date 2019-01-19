@@ -8,18 +8,18 @@
       <table>
         <tr>
           <td>Название</td>
-          <td  align="center">Редактирование</td>
-          <td  align="center">Удаление</td>
+          <td  align="center">Редактировать</td>
+          <td  align="center">Удалить</td>
         </tr>
         <tr v-for="group in groups" v-bind:key="group._id">
           <td>{{ group.name }}</td>
           <td align="center">
             <router-link
               v-bind:to="{ name: 'editgroup', params: { id: group._id } }"
-            >Редактировать</router-link>
+            ><md-icon>create</md-icon></router-link>
           </td>
           <td align="center">
-            <a href="#" @click="deleteGroup(group._id)">Удалить</a>
+            <a href="#" @click="deleteGroup(group._id)"><md-icon>delete</md-icon></a>
           </td>
         </tr>
       </table>
