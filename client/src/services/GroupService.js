@@ -14,7 +14,7 @@ export default {
   },
 
   getGroup (params) {
-    return Api().get('group/' + params.id)
+    return Api().get('groups/' + params.id)
   },
 
   deleteGroup (id) {
