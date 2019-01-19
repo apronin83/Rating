@@ -14,7 +14,7 @@ export default {
   },
 
   getArtifact (params) {
-    return Api().get('artifact/' + params.id)
+    return Api().get('artifacts/' + params.id)
   },
 
   deleteArtifact (id) {

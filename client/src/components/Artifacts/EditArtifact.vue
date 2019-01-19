@@ -1,6 +1,6 @@
 <template>
   <div class="artifacts">
-    <h1>Edit Artifact</h1>
+    <h1>Редактировать артефакт</h1>
     <div class="form">
       <div>
         <input type="text" name="name" placeholder="Название" v-model="name">
@@ -18,7 +18,7 @@ export default {
   name: 'editartifact',
   data () {
     return {
-      name: ''
+      name: null
     }
   },
   mounted () {
@@ -37,7 +37,7 @@ export default {
         id: this.$route.params.id,
         name: this.name
       })
-      this.$swal('Великолепно!', `Ваш артефакт был обновлён!`, 'успешно')
+      this.$swal('Великолепно!', `Ваш артефакт был обновлён!`, 'success')
       this.$router.push({ name: 'Artifacts' })
     }
   }
