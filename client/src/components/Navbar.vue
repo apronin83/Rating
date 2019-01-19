@@ -4,6 +4,7 @@
       <md-tab @click="selectMain" id="tab-home" md-label="Главная"></md-tab>
       <md-tab @click="selectArtifacts" id="tab-artifacts" md-label="Артефакты"></md-tab>
       <md-tab @click="selectGroups" id="tab-groups" md-label="Группы"></md-tab>
+      <md-tab @click="selectPoints" id="tab-points" md-label="Критерии"></md-tab>
     </md-tabs>
   </div>
 </template>
@@ -21,6 +22,9 @@ export default {
     },
     selectGroups () {
       this.$router.push({ name: 'Groups' })
+    },
+    selectPoints () {
+      this.$router.push({ name: 'Points' })
     }
   }
 }
