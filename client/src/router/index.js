@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Main from '@/components/Main'
+
 import Artifacts from '@/components/Artifacts/Artifacts'
 import addartifact from '@/components/Artifacts/AddArtifact'
 import editartifact from '@/components/Artifacts/EditArtifact'
@@ -16,8 +18,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Default',
-      component: Artifacts
+      name: 'Main',
+      component: Main
     },
     {
       path: '/artifacts',

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <navbar></navbar>
     <router-view></router-view>
   </div>
 </template>
@@ -17,8 +18,8 @@ export default {
   "default",
   (
     primary: md-get-palette-color(blue, A200),
-    // The primary color of your application
-      accent: md-get-palette-color(red, A200)// The accent or secondary color
+    accent: md-get-palette-color(red, A200),
+    theme: light
   )
 );
 
