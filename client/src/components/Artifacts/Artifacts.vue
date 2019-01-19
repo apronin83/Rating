@@ -98,9 +98,9 @@ a {
   color: #4d7ef7;
   text-decoration: none;
 }
-a.add_post_link {
+a.add_artifact_link {
   background: #4d7ef7;
-  color: #fff;
+  color: #fff !important;
   padding: 10px 80px;
   text-transform: uppercase;
   font-size: 12px;
