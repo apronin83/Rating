@@ -31,14 +31,16 @@ export default {
         id: this.$route.params.groupId
       })
       this.group = response.data
+
       var point = this.group.points.find(
-        p => p.name === this.$route.params.pointName
+        p => p._id === this.$route.params.pointId
       )
+
       this.name = point.name
     },
     async updatePoint () {
       this.group.points.find(
-        p => p.name === this.$route.params.pointName
+        p => p._id === this.$route.params.pointId
       ).name = this.name
 
       await GroupService.updateGroup({

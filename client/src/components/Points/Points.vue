@@ -6,6 +6,7 @@
         <router-link v-bind:to="{ name: 'addpoint' }" class>Добавить критерий</router-link>
       </div>
       <table v-for="group in groups" v-bind:key="group._id">
+        <div v-if="group.points !== undefined && group.points.length > 0">
         <h2>{{ group.name }}</h2>
         <tr>
           <td>Название</td>
@@ -16,17 +17,18 @@
           <td>{{ point.name }}</td>
           <td align="center">
             <router-link
-              v-bind:to="{ name: 'editpoint', params: { pointName: point.name, groupId : group._id } }"
+              v-bind:to="{ name: 'editpoint', params: { pointId: point._id, groupId : group._id } }"
             >
               <md-icon>create</md-icon>
             </router-link>
           </td>
           <td align="center">
-            <a href="#" @click="deletePoint(point.name, group._id)">
+            <a href="#" @click="deletePoint(point._id, group._id)">
               <md-icon>delete</md-icon>
             </a>
           </td>
         </tr>
+        </div>
       </table>
     </div>
     <div v-else>Нет ни одного критерия.. Добавьте хоть один
@@ -54,7 +56,7 @@ export default {
       const response = await GroupService.fetchGroups()
       this.groups = response.data.groups
     },
-    async deletePoint (pointName, groupId) {
+    async deletePoint (pointId, groupId) {
       const $this = this
       $this
         .$swal({
@@ -69,14 +71,20 @@ export default {
         .then(async () => {
           const response = await GroupService.getGroup({ id: groupId })
           var group = response.data
-          const index = group.points.indexOf(p => p.name === pointName)
+
+          const index = group.points
+            .map(function (e) {
+              return e._id
+            })
+            .indexOf(pointId)
           if (index !== -1) {
             group.points.splice(index, 1)
           }
+
           await GroupService.updateGroup({
             id: group._id,
             name: group.name,
-            poinst: group.points
+            points: group.points
           })
 
           $this.$router.go({
