@@ -1,0 +1,159 @@
+<template>
+  <div align="center">
+    <md-toolbar class="md-transparent md-dense">
+      <md-menu md-size="small">
+        <md-field>
+          <label>Название</label>
+          <md-input v-model="name" placeholder="Название"></md-input>
+        </md-field>
+        <md-field v-if="artifacts.length > 0">
+          <md-select
+            v-model="artifactId"
+            name="artifactId"
+            id="artifactId"
+            placeholder="Выберите артефакт"
+          >
+            <md-option
+              v-bind:key="artifact._id"
+              v-for="artifact in artifacts"
+              v-bind:value="artifact._id"
+            >{{artifact.name}}</md-option>
+          </md-select>
+        </md-field>
+
+        <div
+          v-if="groups !== undefined && groups.length > 0 && notes !== undefined && notes.length > 0"
+        >
+          <div class="fill" v-for="group in groups" v-bind:key="group._id">
+            <h2>{{group.name}}</h2>
+            <div>
+              <div v-for="note in notes" v-bind:key="note.pointId">
+                <div v-if="note.pointGroupId === group._id">
+                <h3>{{note.pointName}}</h3>
+                <md-field>
+                  <label>{{note.pointCount}}</label>
+                  <md-input v-model="note.pointCount" placeholder="Соответствий"></md-input>
+                </md-field>
+                <md-field>
+                  <label>{{note.pointDescription}}</label>
+                  <md-input v-model="note.pointDescription" placeholder="Описание"></md-input>
+                </md-field>
+                <md-field>
+                  <label>{{note.pointUrl}}</label>
+                  <md-input v-model="note.pointUrl" placeholder="Источник"></md-input>
+                </md-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </md-menu>
+      <md-menu md-size="big">
+        <md-button class="md-primary" @click="addSubartifact" md-menu-trigger>Создать</md-button>
+      </md-menu>
+    </md-toolbar>
+  </div>
+</template>
+
+<script>
+import ArtifactService from '@/services/ArtifactService'
+import GroupService from '@/services/GroupService'
+
+export default {
+  data: () => ({
+    name: '',
+    artifacts: [],
+    artifactId: '',
+    notes: [],
+    groups: []
+  }),
+  mounted () {
+    this.getArtifacts()
+    this.getGroups()
+  },
+  methods: {
+    async addSubartifact () {
+      if (this.artifactId !== '' && this.name !== '') {
+        const response = await ArtifactService.getArtifact({
+          id: this.artifactId
+        })
+        var artifact = response.data
+
+        if (
+          artifact.subartifacts === undefined ||
+          artifact.subartifacts.length === 0
+        ) {
+          artifact.subartifacts = []
+        }
+
+        if (
+          artifact.subartifacts.find(s => s.name === this.name) === undefined
+        ) {
+          artifact.subartifacts.push({
+            name: this.name,
+            notes: this.notes
+          })
+          await ArtifactService.updateArtifact({
+            id: artifact._id,
+            name: artifact.name,
+            subartifacts: artifact.subartifacts
+          })
+          this.$swal('Великолепно!', `Ваш элемент был добавлен!`, 'success')
+        } else {
+          this.$swal('Внимание!', `Такой элемент уже есть!`, 'info')
+        }
+
+        this.$router.push({ name: 'Subartifacts' })
+      } else {
+        this.$swal('Внимание!', `Все поля должны быть указаны!`, 'info')
+      }
+    },
+    async getArtifacts () {
+      const response = await ArtifactService.fetchArtifacts()
+      this.artifacts = response.data.artifacts
+    },
+    async getGroups () {
+      const response = await GroupService.fetchGroups()
+      this.groups = response.data.groups
+      console.log(this.groups)
+      if (this.notes.length === 0) {
+        this.notes = []
+      }
+      this.groups.forEach(group => {
+        console.log(group)
+        group.points.forEach(point => {
+          this.notes.push({
+            pointId: point._id,
+            pointGroupId: group._id,
+            pointName: point.name,
+            pointCount: null,
+            pointDescription: null,
+            pointUrl: null
+          })
+        })
+      })
+
+      console.log(this.notes)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.md-toolbar {
+  margin-top: 5px;
+}
+
+.md-field {
+  max-width: 20vw;
+}
+
+.md-select {
+  margin: auto;
+}
+
+.fill {
+  display: inline-block;
+  margin: 15px;
+}
+</style>

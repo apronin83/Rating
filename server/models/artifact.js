@@ -6,6 +6,7 @@ var ArtifactSchema = new Schema({
     subartifacts: [{
         name: String,
         notes: [{
+            pointGroupId : String,
             pointName: String,
             pointCount: Number,
             pointDescription: String,

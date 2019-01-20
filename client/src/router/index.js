@@ -15,6 +15,10 @@ import Points from '@/components/Points/Points'
 import addpoint from '@/components/Points/AddPoint'
 import editpoint from '@/components/Points/EditPoint'
 
+import Subartifacts from '@/components/Subartifacts/Subartifacts'
+import addsubartifact from '@/components/Subartifacts/AddSubartifact'
+import editsubartifact from '@/components/Subartifacts/EditSubartifact'
+
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +43,21 @@ export default new Router({
       path: '/artifacts/:id/edit',
       name: 'editartifact',
       component: editartifact
+    },
+    {
+      path: '/subartifacts',
+      name: 'Subartifacts',
+      component: Subartifacts
+    },
+    {
+      path: '/subartifacts/add',
+      name: 'addsubartifact',
+      component: addsubartifact
+    },
+    {
+      path: '/subartifacts/:id/edit',
+      name: 'editsubartifact',
+      component: editsubartifact
     },
     {
       path: '/groups',
