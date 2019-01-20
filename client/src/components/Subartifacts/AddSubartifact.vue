@@ -91,8 +91,9 @@ export default {
         ) {
           artifact.subartifacts.push({
             name: this.name,
-            notes: this.notes
+            notes: this.notes.filter(n => n.pointCount !== 0)
           })
+
           await ArtifactService.updateArtifact({
             id: artifact._id,
             name: artifact.name,
