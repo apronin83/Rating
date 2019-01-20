@@ -34,7 +34,7 @@
             >{{subartifact.rate}}</div>
             <div v-if="subartifact.chartData !== undefined" class="divTableCell">
               <ve-pie-chart :data="subartifact.chartData"/>
-            </div> 
+            </div>
             <div v-if="subartifact.chartData !== undefined" class="divTableCell">
               <ve-bar-chart :data="subartifact.chartData"/>
             </div>
@@ -42,7 +42,39 @@
         </div>
       </div>
     </div>
-    <div v-if="isArtifact">Is Artifact</div>
+    <div v-if="isArtifact && isReady">
+      <h1>Рейтинг среди артефактов</h1>
+      <div
+        class="divTable"
+        style="border: 1px solid #000;"
+        v-for="(artifact, index) in artifacts"
+        v-bind:key="artifact._id"
+      >
+        <div
+          v-if="artifact.subartifacts !== undefined && artifact.subartifacts.length > 0"
+          class="divTableBody"
+        >
+          <div class="divTableRow">
+            <div class="divTableCell">Позиция</div>
+            <div class="divTableCell">Название</div>
+            <div class="divTableCell">Рейтинг</div>
+            <div class="divTableCell">Круговой график</div>
+            <div class="divTableCell">Столбчатый график</div>
+          </div>
+          <div class="divTableRow">
+            <div class="divTableCell">{{index + 1}}</div>
+            <div class="divTableCell">{{artifact.name}}</div>
+            <div class="divTableCell">{{artifact.rate}}</div>
+            <div v-if="artifact.chartData !== undefined" class="divTableCell">
+              <ve-pie-chart :data="artifact.chartData"/>
+            </div>
+            <div v-if="artifact.chartData !== undefined" class="divTableCell">
+              <ve-bar-chart :data="artifact.chartData"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div v-if="isPoint">Is Point</div>
   </div>
 </template>
@@ -55,7 +87,8 @@ export default {
     artifacts: null,
     isSubartifact: false,
     isPoint: false,
-    isArtifact: false
+    isArtifact: false,
+    isReady: false
   }),
   mounted () {
     this.getArtifacts()
@@ -81,6 +114,9 @@ export default {
       this.artifacts = response.data.artifacts
 
       this.artifacts.forEach(a => {
+        a.rate = 0
+        var aChartData = []
+
         a.subartifacts.forEach(sa => {
           var rate = 0
 
@@ -91,6 +127,18 @@ export default {
             rate += n.pointCount
             dimensions.push(n.pointName)
             measures.push(n.pointCount)
+
+            if (aChartData.find(a => a.name === n.pointName) === undefined) {
+              var aDimensions = 0
+              aDimensions += (n.pointCount)
+
+              aChartData.push({
+                name: n.pointName,
+                dimension: aDimensions
+              })
+            } else {
+              aChartData.find(a => a.name === n.pointName).dimension += n.pointCount
+            }
           })
 
           sa.rate = rate
@@ -109,8 +157,35 @@ export default {
           }
 
           a.subartifacts.sort(e => e.rate)
+          a.rate += rate
         })
+        var chartDimensions = []
+        var charMeasures = []
+
+        aChartData.forEach(acd => {
+          chartDimensions.push(acd.name)
+          charMeasures.push(acd.dimension)
+        })
+
+        a.chartData = {
+          dimensions: {
+            name: 'измерение',
+            data: chartDimensions
+          },
+          measures: [
+            {
+              name: 'размер',
+              data: charMeasures
+            }
+          ]
+        }
+
+        console.log(a.chartData)
       })
+
+      this.artifacts.sort(a => a.rate)
+
+      this.isReady = true
     }
   }
 }
