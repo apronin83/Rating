@@ -9,7 +9,10 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 
 import Navbar from './components/Navbar'
+import VeCharts from 've-charts'
+import 've-charts/lib/ve-charts.min.css'
 
+Vue.use(VeCharts)
 Vue.use(VueMaterial)
 Vue.use(VueSweetalert2)
 
