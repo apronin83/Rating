@@ -1,33 +1,44 @@
 <template>
-  <div class="artifacts">
-    <h1>Артефакты</h1>
-    <div v-if="artifacts.length > 0" class="table-wrap">
-      <div>
-        <router-link v-bind:to="{ name: 'addartifact' }" class>Добавить артефакт</router-link>
+  <div class="points">
+    <div>
+     <md-toolbar :md-elevation="1">
+        <span class="md-title">Артефакты</span><div>        
       </div>
-      <table>
-        <tr>
-          <td>Название</td>
-          <td  align="center">Редактировать</td>
-          <td  align="center">Удалить</td>
-        </tr>
-        <tr v-for="artifact in artifacts" v-bind:key="artifact._id">
-          <td>{{ artifact.name }}</td>
-          <td align="center">
-            <router-link
-              v-bind:to="{ name: 'editartifact', params: { id: artifact._id } }"
-            ><md-icon>create</md-icon></router-link>
-          </td>
-          <td align="center">
-            <a href="#" @click="deleteArtifact(artifact._id)"><md-icon>delete</md-icon></a>
-          </td>
-        </tr>
-      </table>
+       <md-button v-bind:to="{ name: 'addartifact' }" class="md-raised md-primary">Добавить артефакт</md-button>
+      </md-toolbar>
     </div>
-    <div v-else>Нет ни одного артефакта.. Добавьте хоть один
-      <br>
-      <br>
-      <router-link v-bind:to="{ name: 'addartifact' }" class="add_artifact_link">Добавить артефакт</router-link>
+    <div class="points-content">
+      
+      <div v-if="artifacts.length > 0">
+        <div class="pseudo-table">
+           <md-card>
+      <md-card-content v-for="artifact in artifacts" v-bind:key="artifact._id">
+        <div>
+          <div class="main-content inline">
+            <div class="content-line">
+              {{ artifact.name }}
+            </div>
+          </div>
+      
+          <div class="options-content inline">
+            <div class="inline">
+            <router-link v-bind:to="{ name: 'editartifact', params: { id: artifact._id } }"><md-icon>create</md-icon></router-link>
+            </div>
+            <div class="inline">
+            <a href="#" @click="deleteArtifact(artifact._id)"><md-icon>delete</md-icon></a>
+            </div>
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
+        </div>
+      </div>
+      <md-empty-state v-else
+      md-icon="devices_other"
+      md-label="Создайте артефакт"
+      md-description="Тут описание нужности артефакта">
+       <md-button v-bind:to="{ name: 'addartifact' }" class="md-raised md-primary">Добавить фртефакт</md-button>
+    </md-empty-state>
     </div>
   </div>
 </template>
@@ -72,45 +83,5 @@ export default {
 }
 </script>
 <style type="text/css">
-.table-wrap {
-  width: 60%;
-  margin: 0 auto;
-  text-align: center;
-}
-.table-wrap div {
-  margin-bottom: 1vh;
-}
-table {
-  margin: auto;
-}
-table th,
-table tr {
-  text-align: left;
-  cursor: default;
-}
-table thead {
-  background: #f2f2f2;
-}
-table tr td {
-  padding: 10px;
-}
-table tr:nth-child(odd) {
-  background: #f2f2f2;
-}
-table tr:nth-child(1) {
-  background: #4d7ef7;
-  color: #fff;
-}
-a {
-  color: #4d7ef7;
-  text-decoration: none;
-}
-a.add_artifact_link {
-  background: #4d7ef7;
-  color: #fff !important;
-  padding: 10px 80px;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: bold;
-}
+
 </style>

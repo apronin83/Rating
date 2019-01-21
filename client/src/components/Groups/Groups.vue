@@ -1,33 +1,44 @@
 <template>
-  <div class="groups">
-    <h1>Группы</h1>
-    <div v-if="groups.length > 0" class="table-wrap">
-      <div>
-        <router-link v-bind:to="{ name: 'addgroup' }" class>Добавить группу</router-link>
+  <div class="points">
+    <div>
+     <md-toolbar :md-elevation="1">
+        <span class="md-title">Группы</span><div>        
       </div>
-      <table>
-        <tr>
-          <td>Название</td>
-          <td  align="center">Редактировать</td>
-          <td  align="center">Удалить</td>
-        </tr>
-        <tr v-for="group in groups" v-bind:key="group._id">
-          <td>{{ group.name }}</td>
-          <td align="center">
-            <router-link
-              v-bind:to="{ name: 'editgroup', params: { id: group._id } }"
-            ><md-icon>create</md-icon></router-link>
-          </td>
-          <td align="center">
-            <a href="#" @click="deleteGroup(group._id)"><md-icon>delete</md-icon></a>
-          </td>
-        </tr>
-      </table>
+       <md-button v-bind:to="{ name: 'addgroup' }" class="md-raised md-primary">Добавить группу</md-button>
+      </md-toolbar>
     </div>
-    <div v-else>Нет ни одной группы.. Добавьте хоть одну
-      <br>
-      <br>
-      <router-link v-bind:to="{ name: 'addgroup' }" class="add_group_link">Добавить группу</router-link>
+    <div class="points-content">
+      
+      <div v-if="groups.length > 0">
+        <div class="pseudo-table">
+           <md-card>
+      <md-card-content v-for="group in groups" v-bind:key="group._id">
+        <div>
+          <div class="main-content inline">
+            <div class="content-line">
+              {{ group.name }}
+            </div>
+          </div>
+      
+          <div class="options-content inline">
+            <div class="inline">
+            <router-link v-bind:to="{ name: 'addgroup', params: { id: group._id } }"><md-icon>create</md-icon></router-link>
+            </div>
+            <div class="inline">
+              <a href="#" @click="deleteGroup(group._id)"><md-icon>delete</md-icon></a>
+            </div>
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
+        </div>
+      </div>
+      <md-empty-state v-else
+      md-icon="devices_other"
+      md-label="Создайте группу"
+      md-description="Тут описание нужности группы">
+       <md-button v-bind:to="{ name: 'addgroup' }" class="md-raised md-primary">Добавить группу</md-button>
+    </md-empty-state>
     </div>
   </div>
 </template>

@@ -1,40 +1,53 @@
 <template>
   <div class="points">
-    <h1>Критерии</h1>
-    <div v-if="groups !== undefined && groups.length > 0" class="table-wrap">
-      <div>
-        <router-link v-bind:to="{ name: 'addpoint' }" class>Добавить критерий</router-link>
+    <div>
+     <md-toolbar :md-elevation="1">
+        <span class="md-title">Критерии</span><div>        
       </div>
-      <table v-for="group in groups" v-bind:key="group._id">
-        <div v-if="group.points !== undefined && group.points.length > 0">
-        <h2>{{ group.name }}</h2>
-        <tr>
-          <td>Название</td>
-          <td align="center">Редактировать</td>
-          <td align="center">Удалить</td>
-        </tr>
-        <tr v-for="point in group.points" v-bind:key="point._id">
-          <td>{{ point.name }}</td>
-          <td align="center">
-            <router-link
-              v-bind:to="{ name: 'editpoint', params: { pointId: point._id, groupId : group._id } }"
-            >
+       <md-button v-bind:to="{ name: 'addpoint' }" class="md-raised md-primary">Добавить критерий</md-button>
+      </md-toolbar>
+    </div>
+    <div class="points-content">
+      
+      <div v-if="groups !== undefined && groups.length > 0" class="element">
+        <div class="pseudo-table">
+           <md-card v-for="group in groups" v-bind:key="group._id">
+      <md-card-header>
+        <div class="md-title">{{ group.name }}</div>
+      </md-card-header>
+
+      <md-card-content>
+        <div v-for="point in group.points" v-bind:key="point._id">
+          <div class="main-content inline">
+            <div class="content-line">
+              {{ point.name }}
+            </div>
+          </div>
+      
+          <div class="options-content inline">
+            <div class="inline">
+            <router-link v-bind:to="{ name: 'editpoint', params: { pointId: point._id, groupId : group._id } }">
               <md-icon>create</md-icon>
             </router-link>
-          </td>
-          <td align="center">
+            </div>
+            <div class="inline">
             <a href="#" @click="deletePoint(point._id, group._id)">
               <md-icon>delete</md-icon>
             </a>
-          </td>
-        </tr>
+            </div>
+          </div>
         </div>
-      </table>
-    </div>
-    <div v-else>Нет ни одного критерия.. Добавьте хоть один
-      <br>
-      <br>
-      <router-link v-bind:to="{ name: 'addpoint' }" class="add_point_link">Добавить критерий</router-link>
+      </md-card-content>
+    </md-card>
+        </div>
+      </div>
+
+      <md-empty-state v-else
+      md-icon="devices_other"
+      md-label="Создайте критерий"
+      md-description="Тут описание нужности критерия">
+       <md-button v-bind:to="{ name: 'addpoint' }" class="md-raised md-primary">Добавить критерий</md-button>
+    </md-empty-state>
     </div>
   </div>
 </template>
@@ -96,38 +109,46 @@ export default {
 }
 </script>
 <style type="text/css">
-.table-wrap {
-  width: 60%;
-  margin: 0 auto;
-  text-align: center;
+.md-card {
+    width: 30vw;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+  }
+.content-line {
+  width: 100%;
 }
-table th,
-table tr {
+
+.main-content {
+  width: 25vw;
+}
+.options-content {
+  width: 3vw;
+}.content-line {
   text-align: left;
+  border-bottom: 1px #ededed solid;
 }
-table thead {
-  background: #f2f2f2;
+.points {
+  text-align: center;
+  margin: auto;
 }
-table tr td {
-  padding: 10px;
+
+.points-content {
+  
+  display: -webkit-flex; 
+  -webkit-justify-content: center;
+  justify-content: center;
+  display: flex;
+  align-content: space-around;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
-table tr:nth-child(odd) {
-  background: #f2f2f2;
+
+.element {
+  margin: 5px;
 }
-table tr:nth-child(1) {
-  background: #4d7ef7;
-  color: #fff;
-}
-a {
-  color: #4d7ef7;
-  text-decoration: none;
-}
-a.add_point_link {
-  background: #4d7ef7;
-  color: #fff !important;
-  padding: 10px 80px;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: bold;
+
+.inline {
+  display: inline-block;
 }
 </style>
