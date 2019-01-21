@@ -21,13 +21,16 @@
           </md-select>
         </md-field>
 
-        <div
+        <div class="points-content"
           v-if="groups !== undefined && groups.length > 0 && notes !== undefined && notes.length > 0"
         >
-          <div class="fill" v-for="group in groups" v-bind:key="group._id">
-            <h2>{{group.name}}</h2>
+          <md-card class="fill" v-for="group in groups" v-bind:key="group._id">
+            <md-toolbar class="md-primary">
+        <span class="white-color md-title">{{group.name}}</span><div>        
+      </div>
+      </md-toolbar>
             <div>
-              <div v-for="note in notes" v-bind:key="note.pointId">
+              <div v-for="note in notes" v-bind:key="note.pointId" class="inline element-content">
                 <div v-if="note.pointGroupId === group._id">
                 <h3>{{note.pointName}}</h3>
                 <md-field>
@@ -45,11 +48,11 @@
                 </div>
               </div>
             </div>
-          </div>
+          </md-card>
         </div>
       </md-menu>
       <md-menu md-size="big">
-        <md-button class="md-primary" @click="addSubartifact" md-menu-trigger>Создать</md-button>
+        <md-button class="big-btn md-raised md-primary" @click="addSubartifact" md-menu-trigger>Создать</md-button>
       </md-menu>
     </md-toolbar>
   </div>
@@ -154,7 +157,25 @@ export default {
 }
 
 .fill {
-  display: inline-block;
+  display: block;
   margin: 15px;
+  min-width: 45vw;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.big-btn {
+  width: 100vw;
+  min-height: 200px;
+  font-size: 3em;
+}
+
+.element-content {
+  margin: 5px;
+  padding: 5px;
+}
+
+.white-color  {
+  color: white !important;
 }
 </style>

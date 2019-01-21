@@ -1,12 +1,10 @@
 <template>
   <div align="center">
     <md-toolbar class="md-transparent md-dense">
-      <md-menu md-size="auto">
         <md-field>
           <label>Название</label>
           <md-input v-model="name" placeholder="Название"></md-input>
         </md-field>
-      </md-menu>
       <md-field v-if="groups.length > 0">
         <md-select v-model="groupId" name="groupId" id="groupId" placeholder="Выберите группу">
           <md-option
@@ -83,5 +81,10 @@ export default {
 
 .md-select {
   margin: auto;
+}
+
+.md-field {
+  width: 100vw;
+  margin-left: 20px;
 }
 </style>
