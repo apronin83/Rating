@@ -1,7 +1,6 @@
 <template>
   <div v-if="artifacts !== undefined && artifacts !== null && artifacts.length>0">
     <md-button class="md-primary" @click="select('subartifact')">Рейтинг среди элементов артефактов</md-button>
-    <md-button class="md-primary" @click="select('point')">Рейтинг по критерию</md-button>
     <md-button class="md-primary" @click="select('artifact')">Рейтинг артефактов</md-button>
     <div v-if="isSubartifact">
       <h1>Рейтинг среди элементов внутри артефакта</h1>
@@ -47,7 +46,7 @@
       <div
         class="divTable"
         style="border: 1px solid #000;"
-        v-for="(artifact, index) in artifacts"
+        v-for="(artifact, index) in artifacts.filter(a=>a.subartifacts !== undefined && a.subartifacts.length >0)"
         v-bind:key="artifact._id"
       >
         <div
@@ -75,7 +74,6 @@
         </div>
       </div>
     </div>
-    <div v-if="isPoint">Is Point</div>
   </div>
 </template>
 
@@ -130,14 +128,15 @@ export default {
 
             if (aChartData.find(a => a.name === n.pointName) === undefined) {
               var aDimensions = 0
-              aDimensions += (n.pointCount)
+              aDimensions += n.pointCount
 
               aChartData.push({
                 name: n.pointName,
                 dimension: aDimensions
               })
             } else {
-              aChartData.find(a => a.name === n.pointName).dimension += n.pointCount
+              aChartData.find(a => a.name === n.pointName).dimension +=
+                n.pointCount
             }
           })
 
