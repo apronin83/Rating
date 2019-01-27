@@ -7,7 +7,6 @@
           <md-input v-model="name" placeholder="Название"></md-input>
         </md-field>
       </md-menu>
-
       <md-menu md-size="auto">
         <md-button class="md-primary" @click="addArtifact" md-menu-trigger>Создать</md-button>
       </md-menu>
