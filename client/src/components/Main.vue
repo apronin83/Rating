@@ -34,12 +34,12 @@
             </md-list>
           </div>
           <div class="graph-content">
-            <div class="pie-chart inline">
+            <div class="pie-chart">
 <div v-if="subartifact.chartData !== undefined">
               <ve-pie-chart :data="subartifact.chartData"/>
             </div>
             </div>
-            <div class="bar-graph inline">
+            <div class="bar-graph">
 <div v-if="subartifact.chartData !== undefined">
               <ve-bar-chart :data="subartifact.chartData"/>
             </div>
@@ -58,8 +58,8 @@
         v-bind:key="artifact._id"
       >
       <div class="flex-container" v-if="artifact.subartifacts !== undefined && artifact.subartifacts.length > 0">
-        <div class="graph-element" > 
-          <div class="graph-info" >
+        <div class="graph-element"> 
+          <div class="graph-info">
             <md-list>
               <md-list-item>
                 <md-icon>sort</md-icon>
@@ -76,12 +76,12 @@
             </md-list>
           </div>
           <div class="graph-content">
-            <div class="pie-chart inline">
+            <div class="pie-chart">
 <div v-if="artifact.chartData !== undefined">
               <ve-pie-chart :data="artifact.chartData"/>
             </div>
             </div>
-            <div class="bar-graph inline">
+            <div class="bar-graph">
   <div v-if="artifact.chartData !== undefined">
               <ve-bar-chart :data="artifact.chartData"/>
             </div>
@@ -229,6 +229,9 @@ width: 25vw;
 
 .graph-content {
 width: 70vw;
+display: -webkit-flex; 
+  display: flex;
+  justify-content: center;
 }
 
 .pie-chart {
