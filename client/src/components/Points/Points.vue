@@ -120,10 +120,10 @@ export default {
 }
 
 .main-content {
-  width: 25vw;
+  width: calc(25vw - 75px);
 }
 .options-content {
-  width: 3vw;
+  width: 70px;
 }.content-line {
   text-align: left;
   border-bottom: 1px #ededed solid;
@@ -150,5 +150,15 @@ export default {
 
 .inline {
   display: inline-block;
+}
+
+@media (max-width: 700px) {
+ .md-card {
+    width: 90vw;
+  }
+
+  .main-content {
+  width: calc(80vw - 75px);
+  }
 }
 </style>
