@@ -3,44 +3,59 @@
     <md-button class="md-primary" @click="select('subartifact')">Рейтинг среди элементов артефактов</md-button>
     <md-button class="md-primary" @click="select('artifact')">Рейтинг артефактов</md-button>
     <div v-if="isSubartifact">
-      <h1>Рейтинг среди элементов внутри артефакта</h1>
-
+      <md-toolbar class="md-dense">
+        <h1 class="md-title">Рейтинг среди элементов внутри артефакта</h1>
+      </md-toolbar>
       <div
-        class="divTable"
-        style="border: 1px solid #000;"
         v-for="artifact in artifacts"
         v-bind:key="artifact._id"
       >
-        <div v-if="artifact.subartifacts.length > 0" class="divTableBody">
-          <h2>{{artifact.name}}</h2>
-          <div class="divTableRow">
-            <div class="divTableCell">Позиция</div>
-            <div class="divTableCell">Название элемента</div>
-            <div class="divTableCell">Рейтинг</div>
-            <div class="divTableCell">Круговой график</div>
-            <div class="divTableCell">Столбчатый график</div>
+      <div class="flex-container" v-if="artifact.subartifacts.length > 0">
+        <div class="graph-element" v-for="(subartifact, index) in artifact.subartifacts"
+            v-bind:key="subartifact._id"> 
+          <div class="graph-info" >
+            <md-list>
+              <md-list-item class="list-title">
+                <md-icon>title</md-icon>
+                <span class="md-list-item-text">{{artifact.name}}</span>
+              </md-list-item>
+              <md-list-item>
+                <md-icon>sort</md-icon>
+                <span class="md-list-item-text">{{index + 1}}</span>
+              </md-list-item>
+              <md-list-item>
+                <md-icon>subtitles</md-icon>
+                <span class="md-list-item-text">{{subartifact.name}}</span>
+              </md-list-item>
+              <md-list-item v-if="subartifact.notes !== undefined && subartifact.notes.length >0">
+                <md-icon>star</md-icon>
+                <span class="md-list-item-text">{{subartifact.rate}}</span>
+              </md-list-item>
+            </md-list>
           </div>
-          <div
-            v-for="(subartifact, index) in artifact.subartifacts"
-            v-bind:key="subartifact._id"
-            class="divTableRow"
-          >
-            <div class="divTableCell">{{index + 1}}</div>
-            <div class="divTableCell">{{subartifact.name}}</div>
-            <div
-              class="divTableCell"
-              v-if="subartifact.notes !== undefined && subartifact.notes.length >0"
-            >{{subartifact.rate}}</div>
-            <div v-if="subartifact.chartData !== undefined" class="divTableCell">
+          <div class="graph-content">
+            <div class="pie-chart inline">
+<div v-if="subartifact.chartData !== undefined">
               <ve-pie-chart :data="subartifact.chartData"/>
             </div>
-            <div v-if="subartifact.chartData !== undefined" class="divTableCell">
+            </div>
+            <div class="bar-graph inline">
+<div v-if="subartifact.chartData !== undefined">
               <ve-bar-chart :data="subartifact.chartData"/>
+            </div>
             </div>
           </div>
         </div>
       </div>
+      </div>
     </div>
+
+
+
+
+
+
+
     <div v-if="isArtifact && isReady">
       <h1>Рейтинг среди артефактов</h1>
       <div
@@ -221,6 +236,38 @@ export default {
   display: table-row-group;
 }
 
+.flex-container {
+   display: -webkit-flex; 
+  -webkit-justify-content: center;
+  justify-content: center;
+  display: flex;
+  align-content: space-around;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.graph-element {
+  display: -webkit-flex; 
+  display: flex;
+  justify-content: center;
+}
+
+.graph-info {
+width: 25vw;
+}
+
+.graph-content {
+width: 70vw;
+}
+
+.pie-chart {
+  width: 34vw;
+}
+
+.bar-graph{
+  width:  34vw;
+}
+
 .md-primary {
   background: #4d7ef7;
   color: #fff !important;
@@ -228,5 +275,13 @@ export default {
   text-transform: uppercase;
   font-size: 12px;
   font-weight: bold;
+}
+
+.list-title {
+  background: #ededed;
+}
+.list-title .md-list-item-text {
+  color: #101a21;
+  font-size: 18px;
 }
 </style>
