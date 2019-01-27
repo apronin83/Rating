@@ -111,7 +111,7 @@ export default {
 </script>
 <style type="text/css">
 .md-card {
-    width: 30vw;
+    width: 45vw;
     margin: 4px;
     display: inline-block;
     vertical-align: top;
@@ -121,7 +121,7 @@ export default {
 }
 
 .main-content {
-  width: calc(25vw - 75px);
+  width: calc(40vw - 75px);
 }
 .options-content {
   width: 70px;

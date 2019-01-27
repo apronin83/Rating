@@ -3,72 +3,92 @@
     <md-button class="md-primary" @click="select('subartifact')">Рейтинг 1</md-button>
     <md-button class="md-primary" @click="select('artifact')">Рейтинг 2</md-button>
     <div v-if="isSubartifact">
-      <h1>Рейтинг 1</h1>
-
-      <div
-        class="divTable"
-        style="border: 1px solid #000;"
-        v-for="artifact in artifacts"
-        v-bind:key="artifact._id"
-      >
-        <div v-if="artifact.subartifacts.length > 0" class="divTableBody">
-          <h2>{{artifact.name}}</h2>
-          <div class="divTableRow">
-            <div class="divTableCell">Позиция</div>
-            <div class="divTableCell">Название элемента</div>
-            <div class="divTableCell">Рейтинг</div>
-            <div class="divTableCell">Круговой график</div>
-            <div class="divTableCell">Столбчатый график</div>
-          </div>
+      <md-toolbar class="md-dense">
+        <h1 class="md-title">Рейтинг 1</h1>
+      </md-toolbar>
+      <div v-for="artifact in artifacts" v-bind:key="artifact._id">
+        <div class="flex-container" v-if="artifact.subartifacts.length > 0">
           <div
+            class="graph-element"
             v-for="(subartifact, index) in artifact.subartifacts"
             v-bind:key="subartifact._id"
-            class="divTableRow"
           >
-            <div class="divTableCell">{{index + 1}}</div>
-            <div class="divTableCell">{{subartifact.name}}</div>
-            <div
-              class="divTableCell"
-              v-if="subartifact.notes !== undefined && subartifact.notes.length >0"
-            >{{subartifact.rate}}</div>
-            <div v-if="subartifact.chartData !== undefined" class="divTableCell">
-              <ve-pie-chart :data="subartifact.chartData"/>
+            <div class="graph-info">
+              <md-list>
+                <md-list-item class="list-title">
+                  <md-icon>title</md-icon>
+                  <span class="md-list-item-text">{{artifact.name}}</span>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon>sort</md-icon>
+                  <span class="md-list-item-text">{{index + 1}}</span>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon>subtitles</md-icon>
+                  <span class="md-list-item-text">{{subartifact.name}}</span>
+                </md-list-item>
+                <md-list-item v-if="subartifact.notes !== undefined && subartifact.notes.length >0">
+                  <md-icon>star</md-icon>
+                  <span class="md-list-item-text">{{subartifact.rate}}</span>
+                </md-list-item>
+              </md-list>
             </div>
-            <div v-if="subartifact.chartData !== undefined" class="divTableCell">
-              <ve-bar-chart :data="subartifact.chartData"/>
+            <div class="graph-content">
+              <div class="pie-chart inline">
+                <div v-if="subartifact.chartData !== undefined">
+                  <ve-pie-chart :data="subartifact.chartData"/>
+                </div>
+              </div>
+              <div class="bar-graph inline">
+                <div v-if="subartifact.chartData !== undefined">
+                  <ve-bar-chart :data="subartifact.chartData"/>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div v-if="isArtifact && isReady">
-      <h1>Рейтинг 2</h1>
+      <md-toolbar class="md-dense" style="margin-bottom: 20px;">
+        <h1 class="md-title">Рейтинг 2</h1>
+      </md-toolbar>
       <div
-        class="divTable"
-        style="border: 1px solid #000;"
         v-for="(artifact, index) in artifacts.filter(a=>a.subartifacts !== undefined && a.subartifacts.length >0)"
         v-bind:key="artifact._id"
       >
         <div
+          class="flex-container"
           v-if="artifact.subartifacts !== undefined && artifact.subartifacts.length > 0"
-          class="divTableBody"
         >
-          <div class="divTableRow">
-            <div class="divTableCell">Позиция</div>
-            <div class="divTableCell">Название</div>
-            <div class="divTableCell">Рейтинг</div>
-            <div class="divTableCell">Круговой график</div>
-            <div class="divTableCell">Столбчатый график</div>
-          </div>
-          <div class="divTableRow">
-            <div class="divTableCell">{{index + 1}}</div>
-            <div class="divTableCell">{{artifact.name}}</div>
-            <div class="divTableCell">{{artifact.rate}}</div>
-            <div v-if="artifact.chartData !== undefined" class="divTableCell">
-              <ve-pie-chart :data="artifact.chartData"/>
+          <div class="graph-element">
+            <div class="graph-info">
+              <md-list>
+                <md-list-item>
+                  <md-icon>sort</md-icon>
+                  <span class="md-list-item-text">{{index + 1}}</span>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon>subtitles</md-icon>
+                  <span class="md-list-item-text">{{artifact.name}}</span>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon>star</md-icon>
+                  <span class="md-list-item-text">{{artifact.rate}}</span>
+                </md-list-item>
+              </md-list>
             </div>
-            <div v-if="artifact.chartData !== undefined" class="divTableCell">
-              <ve-bar-chart :data="artifact.chartData"/>
+            <div class="graph-content">
+              <div class="pie-chart inline">
+                <div v-if="artifact.chartData !== undefined">
+                  <ve-pie-chart :data="artifact.chartData"/>
+                </div>
+              </div>
+              <div class="bar-graph inline">
+                <div v-if="artifact.chartData !== undefined">
+                  <ve-bar-chart :data="artifact.chartData"/>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -188,35 +208,36 @@ export default {
 }
 </script>
 <style scoped>
-.divTable {
-  display: table;
-  width: 100%;
+.flex-container {
+  display: -webkit-flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  display: flex;
+  align-content: space-around;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
-.divTableRow {
-  display: table-row;
+
+.graph-element {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
 }
-.divTableHeading {
-  background-color: #eee;
-  display: table-header-group;
+
+.graph-info {
+  width: 25vw;
 }
-.divTableCell,
-.divTableHead {
-  border: 1px solid #999999;
-  display: table-cell;
-  padding: 3px 10px;
+
+.graph-content {
+  width: 70vw;
 }
-.divTableHeading {
-  background-color: #eee;
-  display: table-header-group;
-  font-weight: bold;
+
+.pie-chart {
+  width: 34vw;
 }
-.divTableFoot {
-  background-color: #eee;
-  display: table-footer-group;
-  font-weight: bold;
-}
-.divTableBody {
-  display: table-row-group;
+
+.bar-graph {
+  width: 34vw;
 }
 
 .md-primary {
@@ -226,5 +247,13 @@ export default {
   text-transform: uppercase;
   font-size: 12px;
   font-weight: bold;
+}
+
+.list-title {
+  background: #ededed;
+}
+.list-title .md-list-item-text {
+  color: #101a21;
+  font-size: 18px;
 }
 </style>
