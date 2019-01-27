@@ -1,9 +1,9 @@
 <template>
   <div v-if="artifacts !== undefined && artifacts !== null && artifacts.length>0">
-    <md-button class="md-primary" @click="select('subartifact')">Рейтинг среди элементов артефактов</md-button>
-    <md-button class="md-primary" @click="select('artifact')">Рейтинг артефактов</md-button>
+    <md-button class="md-primary" @click="select('subartifact')">Рейтинг 1</md-button>
+    <md-button class="md-primary" @click="select('artifact')">Рейтинг 2</md-button>
     <div v-if="isSubartifact">
-      <h1>Рейтинг среди элементов внутри артефакта</h1>
+      <h1>Рейтинг 1</h1>
 
       <div
         class="divTable"
@@ -42,7 +42,7 @@
       </div>
     </div>
     <div v-if="isArtifact && isReady">
-      <h1>Рейтинг среди артефактов</h1>
+      <h1>Рейтинг 2</h1>
       <div
         class="divTable"
         style="border: 1px solid #000;"
@@ -178,8 +178,6 @@ export default {
             }
           ]
         }
-
-        console.log(a.chartData)
       })
 
       this.artifacts.sort(a => a.rate)

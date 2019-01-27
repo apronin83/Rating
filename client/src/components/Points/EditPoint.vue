@@ -1,6 +1,6 @@
 <template>
   <div class="points">
-    <h1>Редактировать критерий</h1>
+    <h1>Редактирование</h1>
     <div class="form">
       <div>
         <input type="text" name="name" placeholder="Название" v-model="name">
@@ -48,7 +48,7 @@ export default {
         name: this.group.name,
         points: this.group.points
       })
-      this.$swal('Великолепно!', `Ваш критерий был обновлён!`, 'success')
+      this.$swal('Великолепно!', `Элемент обновлён!`, 'success')
       this.$router.push({ name: 'Points' })
     }
   }
