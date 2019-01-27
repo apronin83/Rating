@@ -7,7 +7,6 @@
           <md-input v-model="name" placeholder="Название"></md-input>
         </md-field>
       </md-menu>
-
       <md-menu md-size="auto">
         <md-button class="md-primary" @click="addArtifact" md-menu-trigger>Создать</md-button>
       </md-menu>
@@ -17,6 +16,7 @@
 
 <script>
 import ArtifactService from '@/services/ArtifactService'
+
 export default {
   data: () => ({
     name: ''
@@ -26,7 +26,7 @@ export default {
       await ArtifactService.addArtifact({
         name: this.name
       })
-      this.$swal('Великолепно!', `Ваш артефакт был добавлен!`, 'success')
+      this.$swal('Великолепно!', `Элемент добавлен!`, 'success')
       this.$router.push({ name: 'Artifacts' })
     }
   }

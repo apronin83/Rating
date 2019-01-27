@@ -17,6 +17,7 @@
 
 <script>
 import GroupService from '@/services/GroupService'
+
 export default {
   data: () => ({
     name: ''
@@ -26,7 +27,7 @@ export default {
       await GroupService.addGroup({
         name: this.name
       })
-      this.$swal('Великолепно!', `Ваш группа был добавлена!`, 'success')
+      this.$swal('Великолепно!', `Элемент добавлен!`, 'success')
       this.$router.push({ name: 'Groups' })
     }
   }

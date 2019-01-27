@@ -1,6 +1,6 @@
 <template>
   <div class="artifacts">
-    <h1>Редактировать артефакт</h1>
+    <h1>Редактирование</h1>
     <div class="form">
       <div>
         <input type="text" name="name" placeholder="Название" v-model="name">
@@ -14,6 +14,7 @@
 
 <script>
 import ArtifactService from '@/services/ArtifactService'
+
 export default {
   name: 'editartifact',
   data () {
@@ -30,14 +31,13 @@ export default {
         id: this.$route.params.id
       })
       this.name = response.data.name
-      // this.$router.push({ name: 'Posts' })
     },
     async updateArtifact () {
       await ArtifactService.updateArtifact({
         id: this.$route.params.id,
         name: this.name
       })
-      this.$swal('Великолепно!', `Ваш артефакт был обновлён!`, 'success')
+      this.$swal('Великолепно!', `Элемент обновлён!`, 'success')
       this.$router.push({ name: 'Artifacts' })
     }
   }

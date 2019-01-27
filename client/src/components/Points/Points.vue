@@ -2,9 +2,9 @@
   <div class="points">
     <div>
      <md-toolbar :md-elevation="1">
-        <span class="md-title">Критерии</span><div>        
+        <span class="md-title">{{ this.dictionary.points }}</span><div>        
       </div>
-       <md-button v-bind:to="{ name: 'addpoint' }" class="md-raised md-primary">Добавить критерий</md-button>
+       <md-button v-bind:to="{ name: 'addpoint' }" class="md-raised md-primary">Добавить</md-button>
       </md-toolbar>
     </div>
     <div class="points-content">
@@ -43,10 +43,8 @@
       </div>
 
       <md-empty-state v-else
-      md-icon="devices_other"
-      md-label="Создайте критерий"
-      md-description="Тут описание нужности критерия">
-       <md-button v-bind:to="{ name: 'addpoint' }" class="md-raised md-primary">Добавить критерий</md-button>
+      md-icon="devices_other">
+       <md-button v-bind:to="{ name: 'addpoint' }" class="md-raised md-primary">Добавить</md-button>
     </md-empty-state>
     </div>
   </div>
@@ -54,11 +52,14 @@
 
 <script>
 import GroupService from '@/services/GroupService'
+import {AppTypeHelper} from '@/helpers/AppTypeHelper'
+
 export default {
   name: 'points',
   data () {
     return {
-      groups: []
+      groups: [],
+      dictionary: AppTypeHelper
     }
   },
   mounted () {
@@ -73,10 +74,10 @@ export default {
       const $this = this
       $this
         .$swal({
-          title: 'Вы серьёзно?',
+          title: 'Вы уверены?',
           text: 'Это действие отменить нельзя!',
           type: 'warning',
-          showCancelButton: true,
+          showCancelButton: false,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Yes, delete it!'

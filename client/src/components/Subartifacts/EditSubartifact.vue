@@ -1,6 +1,6 @@
 <template>
   <div class="subartifacts">
-    <h1>Редактировать элемент</h1>
+    <h1>Редактирование</h1>
     <div v-if="artifact !== undefined && artifact !== null" class="form">
       <div>
         <input type="text" name="name" placeholder="Название" v-model="name">
@@ -69,7 +69,7 @@ export default {
         name: this.artifact.name,
         subartifacts: this.artifact.subartifacts
       })
-      this.$swal('Великолепно!', `Ваш элемент был обновлён!`, 'success')
+      this.$swal('Великолепно!', `Элемент обновлён!`, 'success')
       this.$router.push({ name: 'Subartifacts' })
     }
   }

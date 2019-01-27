@@ -1,6 +1,6 @@
 <template>
   <div class="groups">
-    <h1>Редактировать группу</h1>
+    <h1>Редактирование</h1>
     <div class="form">
       <div>
         <input type="text" name="name" placeholder="Название" v-model="name">
@@ -14,6 +14,7 @@
 
 <script>
 import GroupService from '@/services/GroupService'
+
 export default {
   name: 'editgroup',
   data () {
@@ -36,7 +37,7 @@ export default {
         id: this.$route.params.id,
         name: this.name
       })
-      this.$swal('Великолепно!', `Ваша группа был обновлена!`, 'success')
+      this.$swal('Великолепно!', `Элемент обновлен!`, 'success')
       this.$router.push({ name: 'Groups' })
     }
   }
