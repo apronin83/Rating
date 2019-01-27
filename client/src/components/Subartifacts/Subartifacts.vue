@@ -79,7 +79,7 @@ export default {
           title: 'Вы уверены?',
           text: 'Это действие отменить нельзя!',
           type: 'warning',
-          showCancelButton: true,
+          showCancelButton: false,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Yes, delete it!'
