@@ -11,7 +11,7 @@
             v-model="artifactId"
             name="artifactId"
             id="artifactId"
-            placeholder="Выберите артефакт"
+            placeholder="Выберите элемент"
           >
             <md-option
               v-bind:key="artifact._id"
@@ -102,7 +102,7 @@ export default {
             name: artifact.name,
             subartifacts: artifact.subartifacts
           })
-          this.$swal('Великолепно!', `Ваш элемент был добавлен!`, 'success')
+          this.$swal('Великолепно!', `Элемент добавлен!`, 'success')
         } else {
           this.$swal('Внимание!', `Такой элемент уже есть!`, 'info')
         }

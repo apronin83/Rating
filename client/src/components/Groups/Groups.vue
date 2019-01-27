@@ -2,9 +2,9 @@
   <div class="points">
     <div>
      <md-toolbar :md-elevation="1">
-        <span class="md-title">Группы</span><div>        
+        <span class="md-title">{{ dictionary.Groups }}</span><div>        
       </div>
-       <md-button v-bind:to="{ name: 'addgroup' }" class="md-raised md-primary">Добавить группу</md-button>
+       <md-button v-bind:to="{ name: 'addgroup' }" class="md-raised md-primary">Добавить</md-button>
       </md-toolbar>
     </div>
     <div class="points-content">
@@ -34,10 +34,8 @@
         </div>
       </div>
       <md-empty-state v-else
-      md-icon="devices_other"
-      md-label="Создайте группу"
-      md-description="Тут описание нужности группы">
-       <md-button v-bind:to="{ name: 'addgroup' }" class="md-raised md-primary">Добавить группу</md-button>
+      md-icon="devices_other">
+       <md-button v-bind:to="{ name: 'addgroup' }" class="md-raised md-primary">Добавить</md-button>
     </md-empty-state>
     </div>
   </div>
@@ -45,11 +43,14 @@
 
 <script>
 import GroupService from '@/services/GroupService'
+import {AppTypeHelper} from '@/helpers/AppTypeHelper'
+
 export default {
   name: 'groups',
   data () {
     return {
-      groups: []
+      groups: [],
+      dictionary: AppTypeHelper
     }
   },
   mounted () {

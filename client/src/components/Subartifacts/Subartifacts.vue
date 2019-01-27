@@ -2,9 +2,9 @@
   <div class="points">
     <div>
      <md-toolbar :md-elevation="1">
-        <span class="md-title">Элементы</span><div>        
+        <span class="md-title">{{dictionary.subartifacts}}</span><div>        
       </div>
-       <md-button v-bind:to="{ name: 'addsubartifact' }" class="md-raised md-primary">Добавить элемент</md-button>
+       <md-button v-bind:to="{ name: 'addsubartifact' }" class="md-raised md-primary">Добавить</md-button>
       </md-toolbar>
     </div>
     <div class="points-content">
@@ -45,10 +45,8 @@
       </div>
 
       <md-empty-state v-else
-      md-icon="devices_other"
-      md-label="Создайте элемент"
-      md-description="Тут описание нужности элемента">
-       <md-button v-bind:to="{ name: 'addsubartifact' }" class="md-raised md-primary">Добавить элемент</md-button>
+      md-icon="devices_other">
+       <md-button v-bind:to="{ name: 'addsubartifact' }" class="md-raised md-primary">Добавить</md-button>
     </md-empty-state>
     </div>
   </div>
@@ -56,11 +54,14 @@
 
 <script>
 import ArtifactService from '@/services/ArtifactService'
+import {AppTypeHelper} from '@/helpers/AppTypeHelper'
+
 export default {
   name: 'subartifacts',
   data () {
     return {
-      artifacts: []
+      artifacts: [],
+      dictionary: AppTypeHelper
     }
   },
   mounted () {
@@ -75,7 +76,7 @@ export default {
       const $this = this
       $this
         .$swal({
-          title: 'Вы серьёзно?',
+          title: 'Вы уверены?',
           text: 'Это действие отменить нельзя!',
           type: 'warning',
           showCancelButton: true,

@@ -6,7 +6,7 @@
           <md-input v-model="name" placeholder="Название"></md-input>
         </md-field>
       <md-field v-if="groups.length > 0">
-        <md-select v-model="groupId" name="groupId" id="groupId" placeholder="Выберите группу">
+        <md-select v-model="groupId" name="groupId" id="groupId" placeholder="Выберите элемент">
           <md-option
             v-bind:key="group._id"
             v-for="group in groups"
@@ -52,9 +52,9 @@ export default {
             name: group.name,
             points: group.points
           })
-          this.$swal('Великолепно!', `Ваш критерий был добавлен!`, 'success')
+          this.$swal('Великолепно!', `Элемент добавлен!`, 'success')
         } else {
-          this.$swal('Внимание!', `Такой критерий уже есть!`, 'info')
+          this.$swal('Внимание!', `Такой элемент уже есть!`, 'info')
         }
 
         this.$router.push({ name: 'Points' })
