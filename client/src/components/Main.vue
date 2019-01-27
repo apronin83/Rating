@@ -49,44 +49,46 @@
       </div>
       </div>
     </div>
-
-
-
-
-
-
-
     <div v-if="isArtifact && isReady">
-      <h1>Рейтинг среди артефактов</h1>
+<md-toolbar class="md-dense" style="margin-bottom: 20px;">
+        <h1 class="md-title">Рейтинг среди артефактов</h1>
+      </md-toolbar>
       <div
-        class="divTable"
-        style="border: 1px solid #000;"
-        v-for="(artifact, index) in artifacts.filter(a=>a.subartifacts !== undefined && a.subartifacts.length >0)"
+         v-for="(artifact, index) in artifacts.filter(a=>a.subartifacts !== undefined && a.subartifacts.length >0)"
         v-bind:key="artifact._id"
       >
-        <div
-          v-if="artifact.subartifacts !== undefined && artifact.subartifacts.length > 0"
-          class="divTableBody"
-        >
-          <div class="divTableRow">
-            <div class="divTableCell">Позиция</div>
-            <div class="divTableCell">Название</div>
-            <div class="divTableCell">Рейтинг</div>
-            <div class="divTableCell">Круговой график</div>
-            <div class="divTableCell">Столбчатый график</div>
+      <div class="flex-container" v-if="artifact.subartifacts !== undefined && artifact.subartifacts.length > 0">
+        <div class="graph-element" > 
+          <div class="graph-info" >
+            <md-list>
+              <md-list-item>
+                <md-icon>sort</md-icon>
+                <span class="md-list-item-text">{{index + 1}}</span>
+              </md-list-item>
+              <md-list-item>
+                <md-icon>subtitles</md-icon>
+                <span class="md-list-item-text">{{artifact.name}}</span>
+              </md-list-item>
+              <md-list-item>
+                <md-icon>star</md-icon>
+                <span class="md-list-item-text">{{artifact.rate}}</span>
+              </md-list-item>
+            </md-list>
           </div>
-          <div class="divTableRow">
-            <div class="divTableCell">{{index + 1}}</div>
-            <div class="divTableCell">{{artifact.name}}</div>
-            <div class="divTableCell">{{artifact.rate}}</div>
-            <div v-if="artifact.chartData !== undefined" class="divTableCell">
+          <div class="graph-content">
+            <div class="pie-chart inline">
+<div v-if="artifact.chartData !== undefined">
               <ve-pie-chart :data="artifact.chartData"/>
             </div>
-            <div v-if="artifact.chartData !== undefined" class="divTableCell">
+            </div>
+            <div class="bar-graph inline">
+  <div v-if="artifact.chartData !== undefined">
               <ve-bar-chart :data="artifact.chartData"/>
+            </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -205,37 +207,6 @@ export default {
 }
 </script>
 <style scoped>
-.divTable {
-  display: table;
-  width: 100%;
-}
-.divTableRow {
-  display: table-row;
-}
-.divTableHeading {
-  background-color: #eee;
-  display: table-header-group;
-}
-.divTableCell,
-.divTableHead {
-  border: 1px solid #999999;
-  display: table-cell;
-  padding: 3px 10px;
-}
-.divTableHeading {
-  background-color: #eee;
-  display: table-header-group;
-  font-weight: bold;
-}
-.divTableFoot {
-  background-color: #eee;
-  display: table-footer-group;
-  font-weight: bold;
-}
-.divTableBody {
-  display: table-row-group;
-}
-
 .flex-container {
    display: -webkit-flex; 
   -webkit-justify-content: center;
