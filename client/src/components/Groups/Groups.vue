@@ -2,7 +2,7 @@
   <div class="points">
     <div>
      <md-toolbar :md-elevation="1">
-        <span class="md-title">{{ dictionary.Groups }}</span><div>        
+        <span class="md-title">{{ dictionary.groups }}</span><div>        
       </div>
        <md-button v-bind:to="{ name: 'addgroup' }" class="md-raised md-primary">Добавить</md-button>
       </md-toolbar>
