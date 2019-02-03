@@ -19,5 +19,8 @@ export const AppTypeHelper = {
   aboutPoint: 'Критерия',
   aboutPoints: 'Критериев',
 
-  main: 'Рейтинг'
+  main: 'Рейтинг',
+
+  firstRating: 'Районный рейтинг',
+  secondRating: 'Областной рейтинг'
 }

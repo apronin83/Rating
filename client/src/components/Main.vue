@@ -1,7 +1,7 @@
 <template>
   <div v-if="artifacts !== undefined && artifacts !== null && artifacts.length>0">
-    <md-button class="md-primary" @click="select('subartifact')">Рейтинг 1</md-button>
-    <md-button class="md-primary" @click="select('artifact')">Рейтинг 2</md-button>
+    <md-button class="md-primary" @click="select('subartifact')">{{this.dictionary.firstRating}}</md-button>
+    <md-button class="md-primary" @click="select('artifact')">{{this.dictionary.secondRating}}</md-button>
     <div v-if="isSubartifact">
       <md-toolbar class="md-dense">
         <h1 class="md-title">Рейтинг 1</h1>
@@ -31,15 +31,18 @@
                   <md-icon>star</md-icon>
                   <span class="md-list-item-text">{{subartifact.rate}}</span>
                 </md-list-item>
+                <md-list-item>
+                  <md-switch v-model="subartifact.chartSwitcher">График</md-switch>
+                </md-list-item>
               </md-list>
             </div>
             <div class="graph-content">
-              <div class="pie-chart">
+              <div v-if="subartifact.chartSwitcher" class="pie-chart">
                 <div v-if="subartifact.chartData !== undefined">
                   <ve-pie-chart :data="subartifact.chartData"/>
                 </div>
               </div>
-              <div class="bar-graph">
+              <div v-if="!subartifact.chartSwitcher" class="bar-graph">
                 <div v-if="subartifact.chartData !== undefined">
                   <ve-bar-chart :data="subartifact.chartData"/>
                 </div>
@@ -76,15 +79,18 @@
                   <md-icon>star</md-icon>
                   <span class="md-list-item-text">{{artifact.rate}}</span>
                 </md-list-item>
+                <md-list-item>
+                  <md-switch id="artifact._id" v-model="artifact.chartSwitcher">График</md-switch>
+                </md-list-item>
               </md-list>
             </div>
             <div class="graph-content">
-              <div class="pie-chart">
+              <div v-if="artifact.chartSwitcher" class="pie-chart">
                 <div v-if="artifact.chartData !== undefined">
                   <ve-pie-chart :data="artifact.chartData"/>
                 </div>
               </div>
-              <div class="bar-graph">
+              <div v-if="!artifact.chartSwitcher" class="bar-graph">
                 <div v-if="artifact.chartData !== undefined">
                   <ve-bar-chart :data="artifact.chartData"/>
                 </div>
@@ -99,6 +105,7 @@
 
 <script>
 import ArtifactService from '@/services/ArtifactService'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   data: () => ({
@@ -106,7 +113,9 @@ export default {
     isSubartifact: false,
     isPoint: false,
     isArtifact: false,
-    isReady: false
+    isReady: false,
+    bool: true,
+    dictionary: AppTypeHelper
   }),
   mounted () {
     this.getArtifacts()
@@ -161,7 +170,7 @@ export default {
           })
 
           sa.rate = rate
-
+          sa.chartSwitcher = false
           sa.chartData = {
             dimensions: {
               name: 'измерение',
@@ -185,7 +194,7 @@ export default {
           chartDimensions.push(acd.name)
           charMeasures.push(acd.dimension)
         })
-
+        a.chartSwitcher = false
         a.chartData = {
           dimensions: {
             name: 'измерение',
