@@ -112,3 +112,7 @@
   color: #101a21;
   font-size: 18px;
 }
+
+.md-title {
+  font-style: italic;
+}
