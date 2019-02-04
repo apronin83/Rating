@@ -42,4 +42,7 @@ export default {
 .navbar {
   margin-bottom: 55px !important;
 }
+.md-primary {
+  background-color: #448aff;
+}
 </style>
