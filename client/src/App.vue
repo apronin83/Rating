@@ -24,6 +24,7 @@ export default {
 );
 
 @import "~vue-material/dist/theme/all";
+@import "style.css";
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -33,4 +34,5 @@ export default {
   text-align: center;
   margin-top: 60px;
 }
+
 </style>
