@@ -5,6 +5,12 @@
   vertical-align: top;
 }
 
+.plus-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 .content-line {
   width: 100%;
 }
