@@ -117,8 +117,10 @@ export default {
     bool: true,
     dictionary: AppTypeHelper
   }),
-  mounted () {
+  beforeMount () {
     this.getArtifacts()
+  },
+  mounted () {
   },
   methods: {
     select (param) {
@@ -216,7 +218,60 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+.md-card {
+  width: 45vw;
+  margin: 4px;
+  display: inline-block;
+  vertical-align: top;
+}
+.content-line {
+  width: 100%;
+}
+
+.main-content {
+  width: calc(40vw - 75px);
+}
+.options-content {
+  width: 70px;
+}
+.content-line {
+  text-align: left;
+  border-bottom: 1px #ededed solid;
+}
+.points {
+  text-align: center;
+  margin: auto;
+}
+
+.points-content {
+  display: -webkit-flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  display: flex;
+  align-content: space-around;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.element {
+  margin: 5px;
+}
+
+.inline {
+  display: inline-block;
+}
+
+@media (max-width: 700px) {
+  .md-card {
+    width: 90vw;
+  }
+
+  .main-content {
+    width: calc(80vw - 75px);
+  }
+}
+
 .flex-container {
   display: -webkit-flex;
   -webkit-justify-content: center;
