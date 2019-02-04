@@ -1,58 +1,49 @@
 <template>
   <div class="points">
-    <div>
-     <md-toolbar :md-elevation="1">
-        <span class="md-title">{{ this.dictionary.points }}</span><div>        
-      </div>
-       <md-button v-bind:to="{ name: 'addpoint' }" class="md-raised md-primary">Добавить</md-button>
-      </md-toolbar>
-    </div>
     <div class="points-content">
-      
       <div v-if="groups !== undefined && groups.length > 0" class="element">
         <div class="pseudo-table">
-           <md-card v-for="group in groups" v-bind:key="group._id">
-      <md-card-header>
-        <div class="md-title">{{ group.name }}</div>
-      </md-card-header>
+          <md-card v-for="group in groups" v-bind:key="group._id">
+            <md-card-header>
+              <div class="md-title">{{ group.name }}</div>
+            </md-card-header>
 
-      <md-card-content>
-        <div v-for="point in group.points" v-bind:key="point._id">
-          <div class="main-content inline">
-            <div class="content-line">
-              {{ point.name }}
-            </div>
-          </div>
-      
-          <div class="options-content inline">
-            <div class="inline">
-            <router-link v-bind:to="{ name: 'editpoint', params: { pointId: point._id, groupId : group._id } }">
-              <md-icon>create</md-icon>
-            </router-link>
-            </div>
-            <div class="inline">
-            <a href="#" @click="deletePoint(point._id, group._id)">
-              <md-icon>delete</md-icon>
-            </a>
-            </div>
-          </div>
+            <md-card-content>
+              <div v-for="point in group.points" v-bind:key="point._id">
+                <div class="main-content inline">
+                  <div class="content-line">{{ point.name }}</div>
+                </div>
+
+                <div class="options-content inline">
+                  <div class="inline">
+                    <router-link
+                      v-bind:to="{ name: 'editpoint', params: { pointId: point._id, groupId : group._id } }"
+                    >
+                      <md-icon>create</md-icon>
+                    </router-link>
+                  </div>
+                  <div class="inline">
+                    <a href="#" @click="deletePoint(point._id, group._id)">
+                      <md-icon>delete</md-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </md-card-content>
+          </md-card>
         </div>
-      </md-card-content>
-    </md-card>
-        </div>
+
+        <md-button v-bind:to="{ name: 'addpoint' }" class="md-fab plus-button">
+          <md-icon>add</md-icon>
+        </md-button>
       </div>
-
-      <md-empty-state v-else
-      md-icon="devices_other">
-       <md-button v-bind:to="{ name: 'addpoint' }" class="md-raised md-primary">Добавить</md-button>
-    </md-empty-state>
     </div>
   </div>
 </template>
 
 <script>
 import GroupService from '@/services/GroupService'
-import {AppTypeHelper} from '@/helpers/AppTypeHelper'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   name: 'points',
@@ -110,5 +101,4 @@ export default {
 }
 </script>
 <style type="text/css">
-
 </style>
