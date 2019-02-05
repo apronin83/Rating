@@ -4,7 +4,7 @@
     <md-button class="md-primary" @click="select('artifact')">{{this.dictionary.secondRating}}</md-button>
     <div v-if="isSubartifact">
       <md-toolbar class="md-dense">
-        <h1 class="md-title">Рейтинг 1</h1>
+        <h1 class="md-title">Районный рейтинг</h1>
       </md-toolbar>
       <div v-for="artifact in artifacts" v-bind:key="artifact._id">
         <div class="flex-container" v-if="artifact.subartifacts.length > 0">
@@ -51,7 +51,7 @@
     </div>
     <div v-if="isArtifact && isReady">
       <md-toolbar class="md-dense" style="margin-bottom: 20px;">
-        <h1 class="md-title">Рейтинг 2</h1>
+        <h1 class="md-title">Областной рейтинг</h1>
       </md-toolbar>
       <div
         v-for="(artifact, index) in artifacts.filter(a=>a.subartifacts !== undefined && a.subartifacts.length >0)"
@@ -103,7 +103,7 @@ import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   data: () => ({
-    artifacts: null,
+    artifacts: undefined,
     isSubartifact: false,
     isPoint: false,
     isArtifact: false,
@@ -111,12 +111,13 @@ export default {
     bool: true,
     dictionary: AppTypeHelper
   }),
-  beforeMount () {
+  mounted () {
     this.getArtifacts()
   },
-  mounted () {
-  },
   methods: {
+    refresh () {
+      this.Vue.$forceUpdate()
+    },
     select (param) {
       this.isSubartifact = false
       this.isPoint = false
@@ -211,5 +212,3 @@ export default {
   }
 }
 </script>
-<style>
-</style>
