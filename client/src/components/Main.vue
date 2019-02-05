@@ -31,18 +31,15 @@
                   <md-icon>star</md-icon>
                   <span class="md-list-item-text">{{subartifact.rate}}</span>
                 </md-list-item>
-                <md-list-item>
-                  <md-switch v-model="subartifact.chartSwitcher">График</md-switch>
-                </md-list-item>
               </md-list>
             </div>
             <div class="graph-content">
-              <div v-if="subartifact.chartSwitcher" class="pie-chart">
+              <div class="pie-chart">
                 <div v-if="subartifact.chartData !== undefined">
                   <ve-pie-chart :data="subartifact.chartData"/>
                 </div>
               </div>
-              <div v-if="!subartifact.chartSwitcher" class="bar-graph">
+              <div class="bar-graph">
                 <div v-if="subartifact.chartData !== undefined">
                   <ve-bar-chart :data="subartifact.chartData"/>
                 </div>
@@ -79,18 +76,15 @@
                   <md-icon>star</md-icon>
                   <span class="md-list-item-text">{{artifact.rate}}</span>
                 </md-list-item>
-                <md-list-item>
-                  <md-switch id="artifact._id" v-model="artifact.chartSwitcher">График</md-switch>
-                </md-list-item>
               </md-list>
             </div>
             <div class="graph-content">
-              <div v-if="artifact.chartSwitcher" class="pie-chart">
+              <div class="pie-chart">
                 <div v-if="artifact.chartData !== undefined">
                   <ve-pie-chart :data="artifact.chartData"/>
                 </div>
               </div>
-              <div v-if="!artifact.chartSwitcher" class="bar-graph">
+              <div class="bar-graph">
                 <div v-if="artifact.chartData !== undefined">
                   <ve-bar-chart :data="artifact.chartData"/>
                 </div>
@@ -196,7 +190,6 @@ export default {
           chartDimensions.push(acd.name)
           charMeasures.push(acd.dimension)
         })
-        a.chartSwitcher = false
         a.chartData = {
           dimensions: {
             name: 'измерение',
