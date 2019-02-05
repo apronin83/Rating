@@ -1,10 +1,10 @@
 <template>
   <div align="center">
     <md-toolbar class="md-transparent md-dense">
-        <md-field>
-          <label>Название</label>
-          <md-input v-model="name" placeholder="Название"></md-input>
-        </md-field>
+      <md-field>
+        <label>Название</label>
+        <md-input v-model="name" placeholder="Название"></md-input>
+      </md-field>
       <md-field v-if="groups.length > 0">
         <md-select v-model="groupId" name="groupId" id="groupId" placeholder="Выберите элемент">
           <md-option
@@ -23,11 +23,14 @@
 
 <script>
 import GroupService from '@/services/GroupService'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
+
 export default {
   data: () => ({
     name: '',
     groups: [],
-    groupId: ''
+    groupId: '',
+    dictionary: AppTypeHelper
   }),
   mounted () {
     this.getGroups()
@@ -52,19 +55,37 @@ export default {
             name: group.name,
             points: group.points
           })
-          this.$swal('Великолепно!', `Элемент добавлен!`, 'success')
-        } else {
-          this.$swal('Внимание!', `Такой элемент уже есть!`, 'info')
-        }
 
-        this.$router.push({ name: 'Points' })
+          this.$swal(
+            this.dictionary.successTitle,
+            this.dictionary.elementHasBeenAdded,
+            this.dictionary.successOperation
+          ).then(() => {
+            this.navigateToPoints()
+          })
+        } else {
+          this.$swal(
+            this.dictionary.infoTitle,
+            this.dictionary.elementAlreadyExist,
+            this.dictionary.infoOperation
+          ).then(() => {
+            this.navigateToPoints()
+          })
+        }
       } else {
-        this.$swal('Внимание!', `Все поля должны быть указаны!`, 'info')
+        this.$swal(
+          this.dictionary.infoTitle,
+          this.dictionary.allFieldsMustBeDefined,
+          this.dictionary.infoOperation
+        )
       }
     },
     async getGroups () {
       const response = await GroupService.fetchGroups()
       this.groups = response.data.groups
+    },
+    navigateToPoints () {
+      this.$router.push({ name: 'Points' })
     }
   }
 }

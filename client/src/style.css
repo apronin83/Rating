@@ -21,6 +21,7 @@
 
 .options-content {
   width: 70px;
+  cursor: pointer;
 }
 
 .content-line {

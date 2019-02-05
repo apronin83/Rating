@@ -15,28 +15,27 @@
                 </div>
 
                 <div class="options-content inline">
-                  <div class="inline">
-                    <router-link
-                      v-bind:to="{ name: 'editsubartifact', params: { subartifactId: subartifact._id, artifactId : artifact._id } }"
-                    >
-                      <md-icon>create</md-icon>
-                    </router-link>
+                  <div
+                    @click="$router.push({ name: 'editsubartifact', params: { id: subartifact._id, artifactId : artifact._id } })"
+                    class="inline"
+                  >
+                    <md-icon>create</md-icon>
                   </div>
-                  <div class="inline">
-                    <a href="#" @click="deleteSubartifact(subartifact._id, artifact._id)">
-                      <md-icon>delete</md-icon>
-                    </a>
+                  <div @click="deleteSubartifact(subartifact._id, artifact._id)" class="inline">
+                    <md-icon>delete</md-icon>
                   </div>
                 </div>
               </div>
             </md-card-content>
           </md-card>
         </div>
-
-        <md-button v-bind:to="{ name: 'addsubartifact' }" class="md-fab plus-button">
-          <md-icon>add</md-icon>
-        </md-button>
       </div>
+      <div v-else>
+        <h2>На данной странице нет элементов, нажмите на кнопку добавить в правом нижнем углу</h2>
+      </div>
+      <md-button v-bind:to="{ name: 'addsubartifact' }" class="md-fab plus-button">
+        <md-icon>add</md-icon>
+      </md-button>
     </div>
   </div>
 </template>
@@ -47,12 +46,10 @@ import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   name: 'subartifacts',
-  data () {
-    return {
-      artifacts: [],
-      dictionary: AppTypeHelper
-    }
-  },
+  data: () => ({
+    artifacts: [],
+    dictionary: AppTypeHelper
+  }),
   mounted () {
     this.getArtifacts()
   },
@@ -62,42 +59,34 @@ export default {
       this.artifacts = response.data.artifacts
     },
     async deleteSubartifact (subartifactId, artifactId) {
-      const $this = this
-      $this
-        .$swal({
-          title: 'Вы уверены?',
-          text: 'Это действие отменить нельзя!',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
+      const response = await ArtifactService.getArtifact({
+        id: artifactId
+      })
+      var artifact = response.data
+
+      const index = artifact.subartifacts
+        .map(function (e) {
+          return e._id
         })
-        .then(async () => {
-          const response = await ArtifactService.getArtifact({
-            id: artifactId
-          })
-          var artifact = response.data
+        .indexOf(subartifactId)
+      if (index !== -1) {
+        artifact.subartifacts.splice(index, 1)
+      }
 
-          const index = artifact.subartifacts
-            .map(function (e) {
-              return e._id
-            })
-            .indexOf(subartifactId)
-          if (index !== -1) {
-            artifact.subartifacts.splice(index, 1)
-          }
+      await ArtifactService.updateArtifact({
+        id: artifact._id,
+        name: artifact.name,
+        subartifacts: artifact.subartifacts
+      })
 
-          await ArtifactService.updateArtifact({
-            id: artifact._id,
-            name: artifact.name,
-            subartifacts: artifact.subartifacts
-          })
-
-          $this.$router.go({
-            path: '/Subartifacts'
-          })
-        })
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenDeleted,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Subartifacts' })
+        this.getArtifacts()
+      })
     }
   }
 }

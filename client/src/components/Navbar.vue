@@ -1,17 +1,42 @@
 <template>
   <div class="navbar">
     <md-tabs class="md-primary" md-alignment="right">
-      <md-tab @click="selectMain" id="tab-home" :md-label="dictionary.main"></md-tab>
-      <md-tab @click="selectArtifacts" id="tab-artifacts" :md-label="dictionary.artifacts"></md-tab>
-      <md-tab @click="selectSubartifacts" id="tab-subartifacts" :md-label="dictionary.subartifacts"></md-tab>
-      <md-tab @click="selectGroups" id="tab-groups" :md-label="dictionary.groups"></md-tab>
-      <md-tab @click="selectPoints" id="tab-points" :md-label="dictionary.points"></md-tab>
+      <md-tab
+        @click="navigate('Main')"
+        :md-active="isPath('/Main')"
+        id="tab-home"
+        :md-label="dictionary.main"
+      ></md-tab>
+      <md-tab
+        @click="navigate('Artifacts')"
+        :md-active="isPath('/Artifacts')"
+        id="tab-artifacts"
+        :md-label="dictionary.artifacts"
+      ></md-tab>
+      <md-tab
+        @click="navigate('Subartifacts')"
+        :md-active="isPath('/Subartifacts')"
+        id="tab-subartifacts"
+        :md-label="dictionary.subartifacts"
+      ></md-tab>
+      <md-tab
+        @click="navigate('Groups')"
+        :md-active="isPath('/Groups')"
+        id="tab-groups"
+        :md-label="dictionary.groups"
+      ></md-tab>
+      <md-tab
+        @click="navigate('Points')"
+        :md-active="isPath('/Points')"
+        id="tab-points"
+        :md-label="dictionary.points"
+      ></md-tab>
     </md-tabs>
   </div>
 </template>
 
 <script>
-import {AppTypeHelper} from '@/helpers/AppTypeHelper'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   name: 'navbar',
@@ -19,20 +44,11 @@ export default {
     dictionary: AppTypeHelper
   }),
   methods: {
-    selectMain () {
-      this.$router.push({ name: 'Main' })
+    navigate (path) {
+      this.$router.push({ name: path })
     },
-    selectArtifacts () {
-      this.$router.push({ name: 'Artifacts' })
-    },
-    selectGroups () {
-      this.$router.push({ name: 'Groups' })
-    },
-    selectPoints () {
-      this.$router.push({ name: 'Points' })
-    },
-    selectSubartifacts () {
-      this.$router.push({ name: 'Subartifacts' })
+    isPath (path) {
+      return this.$route.path === path
     }
   }
 }

@@ -16,18 +16,26 @@
 
 <script>
 import ArtifactService from '@/services/ArtifactService'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   data: () => ({
-    name: ''
+    name: '',
+    dictionary: AppTypeHelper
   }),
   methods: {
     async addArtifact () {
       await ArtifactService.addArtifact({
         name: this.name
       })
-      this.$swal('Великолепно!', `Элемент добавлен!`, 'success')
-      this.$router.push({ name: 'Artifacts' })
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenAdded,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Artifacts' })
+      })
     }
   }
 }

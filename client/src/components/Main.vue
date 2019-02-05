@@ -2,11 +2,14 @@
   <div v-if="artifacts !== undefined && artifacts !== null && artifacts.length>0">
     <md-button class="md-primary" @click="select('subartifact')">{{this.dictionary.firstRating}}</md-button>
     <md-button class="md-primary" @click="select('artifact')">{{this.dictionary.secondRating}}</md-button>
-    <div v-if="isSubartifact">
+    <div v-if="isSubartifact && isReady">
       <md-toolbar class="md-dense">
         <h1 class="md-title">Районный рейтинг</h1>
       </md-toolbar>
-      <div v-for="artifact in artifacts" v-bind:key="artifact._id">
+      <div
+        v-for="artifact in artifacts.filter(a=>a.subartifacts !== undefined && a.subartifacts.length >0)"
+        v-bind:key="artifact._id"
+      >
         <div class="flex-container" v-if="artifact.subartifacts.length > 0">
           <div
             class="graph-element"
@@ -95,6 +98,10 @@
       </div>
     </div>
   </div>
+  <div v-else>
+    <h1>Нет элементов для того, чтобы составить рейтинг</h1>
+    <h2>Пожалуйста, заполните все данные</h2>
+  </div>
 </template>
 
 <script>
@@ -166,6 +173,7 @@ export default {
             }
           })
 
+          console.log(rate)
           sa.rate = rate
           sa.chartSwitcher = false
           sa.chartData = {
@@ -181,8 +189,10 @@ export default {
             ]
           }
 
-          a.subartifacts.sort(e => e.rate)
           a.rate += rate
+        })
+        a.subartifacts.sort(function (a, b) {
+          return b.rate - a.rate
         })
         var chartDimensions = []
         var charMeasures = []
@@ -205,7 +215,9 @@ export default {
         }
       })
 
-      this.artifacts.sort(a => a.rate)
+      this.artifacts.sort(function (a, b) {
+        return b.rate - a.rate
+      })
 
       this.isReady = true
     }

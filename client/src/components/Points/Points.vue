@@ -7,7 +7,6 @@
             <md-card-header>
               <div class="md-title">{{ group.name }}</div>
             </md-card-header>
-
             <md-card-content>
               <div v-for="point in group.points" v-bind:key="point._id">
                 <div class="main-content inline">
@@ -15,28 +14,27 @@
                 </div>
 
                 <div class="options-content inline">
-                  <div class="inline">
-                    <router-link
-                      v-bind:to="{ name: 'editpoint', params: { pointId: point._id, groupId : group._id } }"
-                    >
-                      <md-icon>create</md-icon>
-                    </router-link>
+                  <div
+                    @click="$router.push({ name: 'editpoint', params: { id: point._id, groupId : group._id } })"
+                    class="inline"
+                  >
+                    <md-icon>create</md-icon>
                   </div>
-                  <div class="inline">
-                    <a href="#" @click="deletePoint(point._id, group._id)">
-                      <md-icon>delete</md-icon>
-                    </a>
+                  <div @click="deletePoint(point._id, group._id)" class="inline">
+                    <md-icon>delete</md-icon>
                   </div>
                 </div>
               </div>
             </md-card-content>
           </md-card>
         </div>
-
-        <md-button v-bind:to="{ name: 'addpoint' }" class="md-fab plus-button">
-          <md-icon>add</md-icon>
-        </md-button>
       </div>
+      <div v-else>
+        <h2>На данной странице нет элементов, нажмите на кнопку добавить в правом нижнем углу</h2>
+      </div>
+      <md-button v-bind:to="{ name: 'addpoint' }" class="md-fab plus-button">
+        <md-icon>add</md-icon>
+      </md-button>
     </div>
   </div>
 </template>
@@ -47,12 +45,10 @@ import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   name: 'points',
-  data () {
-    return {
-      groups: [],
-      dictionary: AppTypeHelper
-    }
-  },
+  data: () => ({
+    groups: [],
+    dictionary: AppTypeHelper
+  }),
   mounted () {
     this.getGroups()
   },
@@ -62,43 +58,36 @@ export default {
       this.groups = response.data.groups
     },
     async deletePoint (pointId, groupId) {
-      const $this = this
-      $this
-        .$swal({
-          title: 'Вы уверены?',
-          text: 'Это действие отменить нельзя!',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
+      const response = await GroupService.getGroup({ id: groupId })
+      var group = response.data
+
+      const index = group.points
+        .map(function (e) {
+          return e._id
         })
-        .then(async () => {
-          const response = await GroupService.getGroup({ id: groupId })
-          var group = response.data
+        .indexOf(pointId)
+      if (index !== -1) {
+        group.points.splice(index, 1)
+      }
 
-          const index = group.points
-            .map(function (e) {
-              return e._id
-            })
-            .indexOf(pointId)
-          if (index !== -1) {
-            group.points.splice(index, 1)
-          }
+      await GroupService.updateGroup({
+        id: group._id,
+        name: group.name,
+        points: group.points
+      })
 
-          await GroupService.updateGroup({
-            id: group._id,
-            name: group.name,
-            points: group.points
-          })
-
-          $this.$router.go({
-            path: '/points'
-          })
-        })
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenDeleted,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Points' })
+        this.getGroups()
+      })
     }
   }
 }
 </script>
+
 <style type="text/css">
 </style>

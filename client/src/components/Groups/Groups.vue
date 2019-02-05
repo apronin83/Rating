@@ -11,26 +11,24 @@
                 </div>
 
                 <div class="options-content inline">
-                  <div class="inline">
-                    <router-link v-bind:to="{ name: 'addgroup', params: { id: group._id } }">
+                  <div @click="$router.push({ name: 'editgroup', params: { id: group._id } })" class="inline">
                       <md-icon>create</md-icon>
-                    </router-link>
                   </div>
-                  <div class="inline">
-                    <a href="#" @click="deleteGroup(group._id)">
-                      <md-icon>delete</md-icon>
-                    </a>
+                  <div @click="deleteGroup(group._id)" class="inline">
+                    <md-icon>delete</md-icon>
                   </div>
                 </div>
               </div>
             </md-card-content>
           </md-card>
         </div>
-        
-        <md-button v-bind:to="{ name: 'addgroup' }" class="md-fab plus-button">
-          <md-icon>add</md-icon>
-        </md-button>
       </div>
+      <div v-else>
+        <h2>На данной странице нет элементов, нажмите на кнопку добавить в правом нижнем углу</h2>
+      </div>
+      <md-button v-bind:to="{ name: 'addgroup' }" class="md-fab plus-button">
+        <md-icon>add</md-icon>
+      </md-button>
     </div>
   </div>
 </template>
@@ -41,12 +39,10 @@ import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   name: 'groups',
-  data () {
-    return {
-      groups: [],
-      dictionary: AppTypeHelper
-    }
-  },
+  data: () => ({
+    groups: [],
+    dictionary: AppTypeHelper
+  }),
   mounted () {
     this.getGroups()
   },
@@ -56,27 +52,21 @@ export default {
       this.groups = response.data.groups
     },
     async deleteGroup (id) {
-      const $this = this
-      $this
-        .$swal({
-          title: 'Вы серьёзно?',
-          text: 'Это действие отменить нельзя!',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        })
-        .then(function () {
-          GroupService.deleteGroup(id)
-          $this.$router.go({
-            path: '/groups'
-          })
-        })
+      GroupService.deleteGroup(id)
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenDeleted,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Groups' })
+        this.getGroups()
+      })
     }
   }
 }
 </script>
+
 <style type="text/css">
 .table-wrap {
   width: 60%;
