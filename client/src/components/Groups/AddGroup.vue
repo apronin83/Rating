@@ -17,18 +17,25 @@
 
 <script>
 import GroupService from '@/services/GroupService'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   data: () => ({
-    name: ''
+    name: '',
+    dictionary: AppTypeHelper
   }),
   methods: {
     async addGroup () {
       await GroupService.addGroup({
         name: this.name
       })
-      this.$swal('Великолепно!', `Элемент добавлен!`, 'success')
-      this.$router.push({ name: 'Groups' })
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenAdded,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Groups' })
+      })
     }
   }
 }

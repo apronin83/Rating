@@ -1,7 +1,7 @@
 <template>
   <div class="points">
     <h1>Редактирование</h1>
-    <div class="form">
+    <div v-if="name !== null && name !== undefined" class="form">
       <div>
         <input type="text" name="name" placeholder="Название" v-model="name">
       </div>
@@ -14,14 +14,15 @@
 
 <script>
 import GroupService from '@/services/GroupService'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
+
 export default {
   name: 'editpoint',
-  data () {
-    return {
-      name: null,
-      group: null
-    }
-  },
+  data: () => ({
+    name: null,
+    group: null,
+    dictionary: AppTypeHelper
+  }),
   mounted () {
     this.getGroup()
   },
@@ -33,14 +34,14 @@ export default {
       this.group = response.data
 
       var point = this.group.points.find(
-        p => p._id === this.$route.params.pointId
+        p => p._id === this.$route.params.id
       )
 
       this.name = point.name
     },
     async updatePoint () {
       this.group.points.find(
-        p => p._id === this.$route.params.pointId
+        p => p._id === this.$route.params.id
       ).name = this.name
 
       await GroupService.updateGroup({
@@ -48,12 +49,19 @@ export default {
         name: this.group.name,
         points: this.group.points
       })
-      this.$swal('Великолепно!', `Элемент обновлён!`, 'success')
-      this.$router.push({ name: 'Points' })
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenUpdated,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Points' })
+      })
     }
   }
 }
 </script>
+
 <style type="text/css">
 .form input,
 .form textarea {

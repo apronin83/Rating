@@ -22,5 +22,16 @@ export const AppTypeHelper = {
   main: 'Рейтинг',
 
   firstRating: 'Районный рейтинг',
-  secondRating: 'Областной рейтинг'
+  secondRating: 'Областной рейтинг',
+
+  successOperation: 'success',
+  infoOperation: 'info',
+  infoTitle: 'Внимание',
+  successTitle: 'Великолепно',
+
+  allFieldsMustBeDefined: 'Все поля должны быть указаны',
+  elementAlreadyExist: 'Элемент уже существует',
+  elementHasBeenUpdated: `Элемент обновлён`,
+  elementHasBeenDeleted: `Элемент удалён`,
+  elementHasBeenAdded: `Элемент добавлен`
 }

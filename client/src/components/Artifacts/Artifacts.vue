@@ -11,26 +11,27 @@
                 </div>
 
                 <div class="options-content inline">
-                  <div class="inline">
-                    <router-link v-bind:to="{ name: 'editartifact', params: { id: artifact._id } }">
-                      <md-icon>create</md-icon>
-                    </router-link>
+                  <div
+                    @click="$router.push({ name: 'editartifact', params: { id: artifact._id } })"
+                    class="inline"
+                  >
+                    <md-icon>create</md-icon>
                   </div>
-                  <div class="inline">
-                    <a href="#" @click="deleteArtifact(artifact._id)">
-                      <md-icon>delete</md-icon>
-                    </a>
+                  <div @click="deleteArtifact(artifact._id)" class="inline">
+                    <md-icon>delete</md-icon>
                   </div>
                 </div>
               </div>
             </md-card-content>
           </md-card>
         </div>
-
-        <md-button v-bind:to="{ name: 'addartifact' }" class="md-fab plus-button">
-          <md-icon>add</md-icon>
-        </md-button>
       </div>
+      <div v-else>
+        <h2>На данной странице нет элементов, нажмите на кнопку добавить в правом нижнем углу</h2>
+      </div>
+      <md-button v-bind:to="{ name: 'addartifact' }" class="md-fab plus-button">
+        <md-icon>add</md-icon>
+      </md-button>
     </div>
   </div>
 </template>
@@ -41,12 +42,10 @@ import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   name: 'artifacts',
-  data () {
-    return {
-      dictionary: AppTypeHelper,
-      artifacts: []
-    }
-  },
+  data: () => ({
+    dictionary: AppTypeHelper,
+    artifacts: []
+  }),
   mounted () {
     this.getArtifacts()
   },
@@ -56,26 +55,20 @@ export default {
       this.artifacts = response.data.artifacts
     },
     async deleteArtifact (id) {
-      const $this = this
-      $this
-        .$swal({
-          title: `Вы уверены?`,
-          text: 'Это действие отменить нельзя!',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        })
-        .then(function () {
-          ArtifactService.deleteArtifact(id)
-          $this.$router.go({
-            path: '/artifacts'
-          })
-        })
+      ArtifactService.deleteArtifact(id)
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenDeleted,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Artifacts' })
+        this.getArtifacts()
+      })
     }
   }
 }
 </script>
+
 <style type="text/css">
 </style>

@@ -14,14 +14,14 @@
 
 <script>
 import ArtifactService from '@/services/ArtifactService'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   name: 'editartifact',
-  data () {
-    return {
-      name: null
-    }
-  },
+  data: () => ({
+    name: null,
+    dictionary: AppTypeHelper
+  }),
   mounted () {
     this.getArtifact()
   },
@@ -37,12 +37,19 @@ export default {
         id: this.$route.params.id,
         name: this.name
       })
-      this.$swal('Великолепно!', `Элемент обновлён!`, 'success')
-      this.$router.push({ name: 'Artifacts' })
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenUpdated,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Artifacts' })
+      })
     }
   }
 }
 </script>
+
 <style type="text/css">
 .form input,
 .form textarea {

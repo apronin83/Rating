@@ -14,14 +14,14 @@
 
 <script>
 import GroupService from '@/services/GroupService'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
 
 export default {
   name: 'editgroup',
-  data () {
-    return {
-      name: null
-    }
-  },
+  data: () => ({
+    name: null,
+    dictionary: AppTypeHelper
+  }),
   mounted () {
     this.getGroup()
   },
@@ -37,12 +37,19 @@ export default {
         id: this.$route.params.id,
         name: this.name
       })
-      this.$swal('Великолепно!', `Элемент обновлен!`, 'success')
-      this.$router.push({ name: 'Groups' })
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenUpdated,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Groups' })
+      })
     }
   }
 }
 </script>
+
 <style type="text/css">
 .form input,
 .form textarea {

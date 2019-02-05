@@ -1,30 +1,37 @@
 <template>
   <div class="subartifacts">
     <h1>Редактирование</h1>
-    <div v-if="artifact !== undefined && artifact !== null" class="form">
+    <div v-if="artifact !== undefined && artifact !== null && subartifactName !== null && subartifactId !== null" class="form">
       <div>
-        <input type="text" name="name" placeholder="Название" v-model="name">
+        <input type="text" :name="subartifactName" placeholder="Название" v-model="subartifactName">
       </div>
       <div v-for="subartifact in artifact.subartifacts" v-bind:key="subartifact._id">
         <div v-if="subartifact._id === subartifactId">
           <div v-for="note in subartifact.notes" v-bind:key="note._id">
             <h3>{{note.pointName}}</h3>
-            <div><input
-              type="text"
-              name="noteCount"
-              placeholder="note.pointCount"
-              v-model="note.pointCount"
-            ></div>
             <div>
-            <input
-              type="text"
-              name="noteDescription"
-              placeholder="note.pointDescription"
-              v-model="note.pointDescription"
-            >
+              <input
+                type="text"
+                name="noteCount"
+                v-bind:to="{'placeholder' : note.pointCount}"
+                v-model="note.pointCount"
+              >
             </div>
             <div>
-            <input type="text" name="noteUrl" placeholder="note.pointUrl" v-model="note.pointUrl">
+              <input
+                type="text"
+                name="noteDescription"
+                v-bind:to="{'placeholder' : note.pointDescription}"
+                v-model="note.pointDescription"
+              >
+            </div>
+            <div>
+              <input
+                type="text"
+                name="noteUrl"
+                v-bind:to="{'placeholder' : note.pointUrl}"
+                v-model="note.pointUrl"
+              >
             </div>
           </div>
         </div>
@@ -38,15 +45,16 @@
 
 <script>
 import ArtifactService from '@/services/ArtifactService'
+import { AppTypeHelper } from '@/helpers/AppTypeHelper'
+
 export default {
   name: 'editsubartifact',
-  data () {
-    return {
-      name: null,
-      subartifactId: this.$route.params.subartifactId,
-      artifact: null
-    }
-  },
+  data: () => ({
+    subartifactName: null,
+    subartifactId: null,
+    artifact: null,
+    dictionary: AppTypeHelper
+  }),
   mounted () {
     this.getArtifact()
   },
@@ -56,29 +64,35 @@ export default {
         id: this.$route.params.artifactId
       })
       this.artifact = response.data
-
       var subartifact = this.artifact.subartifacts.find(
-        s => s._id === this.$route.params.subartifactId
+        s => s._id === this.$route.params.id
       )
-
-      this.name = subartifact.name
+      this.subartifactId = this.$route.params.id
+      this.subartifactName = subartifact.name
     },
     async updateSubartifact () {
       this.artifact.subartifacts.find(
-        s => s._id === this.$route.params.subartifactId
-      ).name = this.name
+        s => s._id === this.$route.params.id
+      ).name = this.subartifactName
 
       await ArtifactService.updateArtifact({
         id: this.artifact._id,
         name: this.artifact.name,
         subartifacts: this.artifact.subartifacts
       })
-      this.$swal('Великолепно!', `Элемент обновлён!`, 'success')
-      this.$router.push({ name: 'Subartifacts' })
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenUpdated,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.$router.push({ name: 'Subartifacts' })
+      })
     }
   }
 }
 </script>
+
 <style type="text/css">
 .form input,
 .form textarea {
@@ -105,15 +119,15 @@ export default {
   cursor: pointer;
 }
 
-@media (max-width: 600px){
+@media (max-width: 600px) {
   .form input,
   .form textarea {
-  width: 80VW;
+    width: 80vw;
   }
   .app_subartifact_btn {
-  background: #4d7ef7;
-  color: #fff;
-  width: 80VW;
-}
+    background: #4d7ef7;
+    color: #fff;
+    width: 80vw;
+  }
 }
 </style>
