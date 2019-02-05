@@ -150,7 +150,6 @@ export default {
 
         a.subartifacts.forEach(sa => {
           var rate = 0
-
           var dimensions = []
           var measures = []
 
