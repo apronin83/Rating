@@ -5,14 +5,36 @@
   vertical-align: top;
 }
 
-.plus-button {
+.chart{
+  min-width:800px;
+}
+
+.plus-button-first {
+  position: absolute;
+  bottom: 80px;
+  right: 0; 
+}
+
+.plus-button-first-text {
+  position: absolute;
+  color:orangered;
+  cursor: default;
+  bottom: 85px;
+  right: 80px; 
+}
+
+.plus-button-second {
   position: absolute;
   bottom: 0;
   right: 0; 
 }
 
-.content-line {
-  width: 100%;
+.plus-button-second-text {
+  position: absolute;
+  cursor: default;
+  color:orangered;
+  bottom: 5px;
+  right: 80px; 
 }
 
 .main-content {
@@ -25,8 +47,8 @@
 }
 
 .content-line {
+  width: 100%;
   text-align: left;
-  border-bottom: 1px #ededed solid;
 }
 
 .points {

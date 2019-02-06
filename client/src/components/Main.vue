@@ -1,102 +1,73 @@
 <template>
   <div v-if="artifacts !== undefined && artifacts !== null && artifacts.length>0">
-    <md-button class="md-primary" @click="select('subartifact')">{{this.dictionary.firstRating}}</md-button>
-    <md-button class="md-primary" @click="select('artifact')">{{this.dictionary.secondRating}}</md-button>
+    <md-button class="md-primary" @click="select('subartifact')">{{this.dictionary.subartifacts}}</md-button>
+    <md-button class="md-primary" @click="select('artifact')">{{this.dictionary.artifacts}}</md-button>
     <div v-if="isSubartifact && isReady">
       <md-toolbar class="md-dense">
-        <h1 class="md-title">Районный рейтинг</h1>
+        <h1 class="md-title">{{this.dictionary.firstRating}}</h1>
       </md-toolbar>
-      <div
-        v-for="artifact in artifacts.filter(a=>a.subartifacts !== undefined && a.subartifacts.length >0)"
-        v-bind:key="artifact._id"
-      >
-        <div class="flex-container" v-if="artifact.subartifacts.length > 0">
-          <div
-            class="graph-element"
-            v-for="(subartifact, index) in artifact.subartifacts"
-            v-bind:key="subartifact._id"
-          >
-            <div class="graph-info">
-              <md-list>
-                <md-list-item class="list-title">
-                  <md-icon>title</md-icon>
-                  <span class="md-list-item-text">{{artifact.name}}</span>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon>sort</md-icon>
-                  <span class="md-list-item-text">{{index + 1}}</span>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon>subtitles</md-icon>
-                  <span class="md-list-item-text">{{subartifact.name}}</span>
-                </md-list-item>
-                <md-list-item v-if="subartifact.notes !== undefined && subartifact.notes.length >0">
-                  <md-icon>star</md-icon>
-                  <span class="md-list-item-text">{{subartifact.rate}}</span>
-                </md-list-item>
-              </md-list>
+      <div class="subartifact-table" v-for="artifact in artifacts" v-bind:key="artifact._id">
+        <md-table v-model="artifact.subartifacts" md-sort="name" md-sort-order="asc" md-card>
+          <md-table-toolbar>
+            <h1 class="md-title">{{artifact.name}}</h1>
+
+            <div class="md-title">
+              <md-button @click="fillCharts('bar',artifact._id)" class="inline">
+                <md-icon>bar_chart</md-icon>
+              </md-button>
+              <md-button @click="fillCharts('pie',artifact._id)" class="inline">
+                <md-icon>pie_chart</md-icon>
+              </md-button>
             </div>
-            <div class="graph-content">
-              <div class="pie-chart">
-                <div v-if="subartifact.chartData !== undefined">
-                  <ve-pie-chart :data="subartifact.chartData"/>
-                </div>
-              </div>
-              <div class="bar-graph">
-                <div v-if="subartifact.chartData !== undefined">
-                  <ve-bar-chart :data="subartifact.chartData"/>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          </md-table-toolbar>
+
+          <md-table-row slot="md-table-row" slot-scope="{ item }">
+            <md-table-cell md-label="Название" md-sort-by="name">{{ item.name }}</md-table-cell>
+            <md-table-cell md-label="Рейтинг" md-sort-by="rate">{{ item.rate }}</md-table-cell>
+          </md-table-row>
+        </md-table>
       </div>
     </div>
     <div v-if="isArtifact && isReady">
       <md-toolbar class="md-dense" style="margin-bottom: 20px;">
-        <h1 class="md-title">Областной рейтинг</h1>
+        <h1 class="md-title">{{this.dictionary.secondRating}}</h1>
       </md-toolbar>
-      <div
-        v-for="(artifact, index) in artifacts.filter(a=>a.subartifacts !== undefined && a.subartifacts.length >0)"
-        v-bind:key="artifact._id"
-      >
-        <div
-          class="flex-container"
-          v-if="artifact.subartifacts !== undefined && artifact.subartifacts.length > 0"
-        >
-          <div class="graph-element">
-            <div class="graph-info">
-              <md-list>
-                <md-list-item>
-                  <md-icon>sort</md-icon>
-                  <span class="md-list-item-text">{{index + 1}}</span>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon>subtitles</md-icon>
-                  <span class="md-list-item-text">{{artifact.name}}</span>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon>star</md-icon>
-                  <span class="md-list-item-text">{{artifact.rate}}</span>
-                </md-list-item>
-              </md-list>
-            </div>
-            <div class="graph-content">
-              <div class="pie-chart">
-                <div v-if="artifact.chartData !== undefined">
-                  <ve-pie-chart :data="artifact.chartData"/>
-                </div>
-              </div>
-              <div class="bar-graph">
-                <div v-if="artifact.chartData !== undefined">
-                  <ve-bar-chart :data="artifact.chartData"/>
-                </div>
-              </div>
-            </div>
+
+      <md-table v-model="artifacts" md-sort="name" md-sort-order="asc" md-card>
+        <md-table-toolbar>
+          <div class="md-title">
+            <md-button @click="fillCharts('bar',null)" class="inline">
+              <md-icon>bar_chart</md-icon>
+            </md-button>
+            <md-button @click="fillCharts('pie',null)" class="inline">
+              <md-icon>pie_chart</md-icon>
+            </md-button>
+          </div>
+        </md-table-toolbar>
+
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
+          <md-table-cell md-label="Название" md-sort-by="name">{{ item.name }}</md-table-cell>
+          <md-table-cell md-label="Рейтинг" md-sort-by="rate">{{ item.rate }}</md-table-cell>
+        </md-table-row>
+      </md-table>
+    </div>
+
+    <md-dialog :md-active.sync="isChart">
+      <md-dialog-title>График</md-dialog-title>
+      <md-dialog-content>
+        <div class="chart">
+          <div v-if="isPieChart">
+            <ve-pie-chart :data="chart"/>
+          </div>
+          <div v-else>
+            <ve-bar-chart :data="chart"/>
           </div>
         </div>
-      </div>
-    </div>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="isChart = false">Закрыть</md-button>
+      </md-dialog-actions>
+    </md-dialog>
   </div>
   <div v-else>
     <h1>Нет элементов для того, чтобы составить рейтинг</h1>
@@ -112,19 +83,20 @@ export default {
   data: () => ({
     artifacts: undefined,
     isSubartifact: false,
-    isPoint: false,
     isArtifact: false,
+    isChart: false,
+    ifBarChart: false,
+    isPieChart: false,
     isReady: false,
     bool: true,
+    chart: undefined,
     dictionary: AppTypeHelper
   }),
   mounted () {
     this.getArtifacts()
+    this.isArtifact = true
   },
   methods: {
-    refresh () {
-      this.Vue.$forceUpdate()
-    },
     select (param) {
       this.isSubartifact = false
       this.isPoint = false
@@ -136,9 +108,6 @@ export default {
       if (param === 'artifact') {
         this.isArtifact = !this.isArtifact
       }
-      if (param === 'point') {
-        this.isPoint = !this.isPoint
-      }
     },
     async getArtifacts () {
       const response = await ArtifactService.fetchArtifacts()
@@ -146,22 +115,51 @@ export default {
 
       this.artifacts.forEach(a => {
         a.rate = 0
-        var aChartData = []
 
         a.subartifacts.forEach(sa => {
           var rate = 0
+
+          sa.notes.forEach(n => {
+            rate += n.pointCount
+          })
+
+          sa.rate = rate
+          a.rate += rate
+        })
+
+        a.subartifacts.sort(function (a, b) {
+          return b.rate - a.rate
+        })
+
+        this.artifacts.sort(function (a, b) {
+          return b.rate - a.rate
+        })
+
+        this.isReady = true
+      })
+    },
+    fillCharts (param, artifactId) {
+      var aChartData = []
+
+      var tempArtifacts = []
+      if (artifactId !== null) {
+        tempArtifacts.push(this.artifacts.find(a => a._id === artifactId))
+      } else {
+        tempArtifacts = this.artifacts
+      }
+
+      tempArtifacts.forEach(artifact => {
+        artifact.subartifacts.forEach(sa => {
           var dimensions = []
           var measures = []
 
           sa.notes.forEach(n => {
-            rate += n.pointCount
             dimensions.push(n.pointName)
             measures.push(n.pointCount)
 
             if (aChartData.find(a => a.name === n.pointName) === undefined) {
               var aDimensions = 0
               aDimensions += n.pointCount
-
               aChartData.push({
                 name: n.pointName,
                 dimension: aDimensions
@@ -171,55 +169,47 @@ export default {
                 n.pointCount
             }
           })
+        })
+      })
 
-          console.log(rate)
-          sa.rate = rate
-          sa.chartSwitcher = false
-          sa.chartData = {
-            dimensions: {
-              name: 'измерение',
-              data: dimensions
-            },
-            measures: [
-              {
-                name: 'размер',
-                data: measures
-              }
-            ]
+      var chartDimensions = []
+      var charMeasures = []
+
+      aChartData.forEach(acd => {
+        chartDimensions.push(acd.name)
+        charMeasures.push(acd.dimension)
+      })
+
+      this.chart = {
+        dimensions: {
+          name: 'измерение',
+          data: chartDimensions
+        },
+        measures: [
+          {
+            name: 'размер',
+            data: charMeasures
           }
+        ]
+      }
 
-          a.rate += rate
-        })
-        a.subartifacts.sort(function (a, b) {
-          return b.rate - a.rate
-        })
-        var chartDimensions = []
-        var charMeasures = []
-
-        aChartData.forEach(acd => {
-          chartDimensions.push(acd.name)
-          charMeasures.push(acd.dimension)
-        })
-        a.chartData = {
-          dimensions: {
-            name: 'измерение',
-            data: chartDimensions
-          },
-          measures: [
-            {
-              name: 'размер',
-              data: charMeasures
-            }
-          ]
-        }
-      })
-
-      this.artifacts.sort(function (a, b) {
-        return b.rate - a.rate
-      })
-
-      this.isReady = true
+      this.openChart(param)
+    },
+    openChart (param) {
+      if (param === 'pie') {
+        this.isPieChart = true
+        this.isBarChart = false
+      } else {
+        this.isPieChart = false
+        this.isBarChart = true
+      }
+      this.isChart = true
     }
   }
 }
 </script>
+<style scoped>
+.subartifact-table {
+  margin-top: 15px;
+}
+</style>

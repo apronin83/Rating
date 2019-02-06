@@ -3,11 +3,9 @@ import Router from 'vue-router'
 
 import Main from '@/components/Main'
 
-import Artifacts from '@/components/Artifacts/Artifacts'
 import addartifact from '@/components/Artifacts/AddArtifact'
 import editartifact from '@/components/Artifacts/EditArtifact'
 
-import Groups from '@/components/Groups/Groups'
 import addgroup from '@/components/Groups/AddGroup'
 import editgroup from '@/components/Groups/EditGroup'
 
@@ -28,11 +26,6 @@ export default new Router({
       path: '/',
       name: 'Main',
       component: Main
-    },
-    {
-      path: '/artifacts',
-      name: 'Artifacts',
-      component: Artifacts
     },
     {
       path: '/artifacts/add',
@@ -58,11 +51,6 @@ export default new Router({
       path: '/subartifacts/:id/edit',
       name: 'editsubartifact',
       component: editsubartifact
-    },
-    {
-      path: '/groups',
-      name: 'Groups',
-      component: Groups
     },
     {
       path: '/groups/add',

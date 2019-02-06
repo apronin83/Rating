@@ -5,7 +5,23 @@
         <div class="pseudo-table">
           <md-card v-for="artifact in artifacts" v-bind:key="artifact._id">
             <md-card-header>
-              <div class="md-title">{{ artifact.name }}</div>
+              <div class="md-title">
+                <div class="main-content inline">
+                  <div class="content-line">{{ artifact.name }}</div>
+                </div>
+
+                <div class="options-content inline">
+                  <div
+                    @click="$router.push({ name: 'editartifact', params: { id: artifact._id } })"
+                    class="inline"
+                  >
+                    <md-icon>reorder</md-icon>
+                  </div>
+                  <div @click="deleteArtifact(artifact._id)" class="inline">
+                    <md-icon>highlight_off</md-icon>
+                  </div>
+                </div>
+              </div>
             </md-card-header>
 
             <md-card-content>
@@ -19,10 +35,10 @@
                     @click="$router.push({ name: 'editsubartifact', params: { id: subartifact._id, artifactId : artifact._id } })"
                     class="inline"
                   >
-                    <md-icon>create</md-icon>
+                    <md-icon>reorder</md-icon>
                   </div>
                   <div @click="deleteSubartifact(subartifact._id, artifact._id)" class="inline">
-                    <md-icon>delete</md-icon>
+                    <md-icon>highlight_off</md-icon>
                   </div>
                 </div>
               </div>
@@ -33,9 +49,19 @@
       <div v-else>
         <h2>На данной странице нет элементов, нажмите на кнопку добавить в правом нижнем углу</h2>
       </div>
-      <md-button v-bind:to="{ name: 'addsubartifact' }" class="md-fab plus-button">
-        <md-icon>add</md-icon>
-      </md-button>
+
+      <div>
+        <h4 class="plus-button-first-text">Добавить {{this.dictionary.artifact.toLowerCase()}}</h4>
+        <md-button v-bind:to="{ name: 'addartifact' }" class="md-fab plus-button-first">
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
+      <div>
+        <h4 class="plus-button-second-text">Добавить {{this.dictionary.subartifact.toLowerCase()}}</h4>
+        <md-button v-bind:to="{ name: 'addsubartifact' }" class="md-fab plus-button-second">
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
     </div>
   </div>
 </template>
@@ -84,9 +110,23 @@ export default {
         this.dictionary.elementHasBeenDeleted,
         this.dictionary.successOperation
       ).then(() => {
-        this.$router.push({ name: 'Subartifacts' })
-        this.getArtifacts()
+        this.refresh()
       })
+    },
+    async deleteArtifact (id) {
+      ArtifactService.deleteArtifact(id)
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenDeleted,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.refresh()
+      })
+    },
+    refresh () {
+      this.$router.push({ name: 'Subartifacts' })
+      this.getArtifacts()
     }
   }
 }

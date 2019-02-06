@@ -8,22 +8,10 @@
         :md-label="dictionary.main"
       ></md-tab>
       <md-tab
-        @click="navigate('Artifacts')"
-        :md-active="isPath('/Artifacts')"
-        id="tab-artifacts"
-        :md-label="dictionary.artifacts"
-      ></md-tab>
-      <md-tab
         @click="navigate('Subartifacts')"
         :md-active="isPath('/Subartifacts')"
         id="tab-subartifacts"
         :md-label="dictionary.subartifacts"
-      ></md-tab>
-      <md-tab
-        @click="navigate('Groups')"
-        :md-active="isPath('/Groups')"
-        id="tab-groups"
-        :md-label="dictionary.groups"
       ></md-tab>
       <md-tab
         @click="navigate('Points')"

@@ -5,7 +5,23 @@
         <div class="pseudo-table">
           <md-card v-for="group in groups" v-bind:key="group._id">
             <md-card-header>
-              <div class="md-title">{{ group.name }}</div>
+              <div class="md-title">
+                <div class="main-content inline">
+                  <div class="content-line">{{ group.name }}</div>
+                </div>
+
+                <div class="options-content inline">
+                  <div
+                    @click="$router.push({ name: 'editgroup', params: { id: group._id } })"
+                    class="inline"
+                  >
+                    <md-icon>reorder</md-icon>
+                  </div>
+                  <div @click="deleteGroup(group._id)" class="inline">
+                    <md-icon>highlight_off</md-icon>
+                  </div>
+                </div>
+              </div>
             </md-card-header>
             <md-card-content>
               <div v-for="point in group.points" v-bind:key="point._id">
@@ -18,10 +34,10 @@
                     @click="$router.push({ name: 'editpoint', params: { id: point._id, groupId : group._id } })"
                     class="inline"
                   >
-                    <md-icon>create</md-icon>
+                    <md-icon>reorder</md-icon>
                   </div>
                   <div @click="deletePoint(point._id, group._id)" class="inline">
-                    <md-icon>delete</md-icon>
+                    <md-icon>highlight_off</md-icon>
                   </div>
                 </div>
               </div>
@@ -32,9 +48,19 @@
       <div v-else>
         <h2>На данной странице нет элементов, нажмите на кнопку добавить в правом нижнем углу</h2>
       </div>
-      <md-button v-bind:to="{ name: 'addpoint' }" class="md-fab plus-button">
-        <md-icon>add</md-icon>
-      </md-button>
+
+      <div>
+        <h4 class="plus-button-first-text">Добавить {{this.dictionary.group.toLowerCase()}}</h4>
+        <md-button v-bind:to="{ name: 'addgroup' }" class="md-fab plus-button-first">
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
+      <div>
+        <h4 class="plus-button-second-text">Добавить {{this.dictionary.point.toLowerCase()}}</h4>
+        <md-button v-bind:to="{ name: 'addpoint' }" class="md-fab plus-button-second">
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
     </div>
   </div>
 </template>
@@ -81,9 +107,23 @@ export default {
         this.dictionary.elementHasBeenDeleted,
         this.dictionary.successOperation
       ).then(() => {
-        this.$router.push({ name: 'Points' })
-        this.getGroups()
+        this.refresh()
       })
+    },
+    async deleteGroup (id) {
+      GroupService.deleteGroup(id)
+
+      this.$swal(
+        this.dictionary.successTitle,
+        this.dictionary.elementHasBeenDeleted,
+        this.dictionary.successOperation
+      ).then(() => {
+        this.refresh()
+      })
+    },
+    refresh () {
+      this.$router.push({ name: 'Points' })
+      this.getGroups()
     }
   }
 }
