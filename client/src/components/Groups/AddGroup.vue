@@ -34,7 +34,7 @@ export default {
         this.dictionary.elementHasBeenAdded,
         this.dictionary.successOperation
       ).then(() => {
-        this.$router.push({ name: 'Points' })
+        this.$router.push({ name: 'Groups' })
       })
     }
   }
