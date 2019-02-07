@@ -139,3 +139,27 @@
 .md-title {
   font-style: italic;
 }
+
+.md-dialog {
+  min-width: 80vw;
+  min-height: 80vh;
+}
+
+.md-dialog-content {
+  min-width: 80vw;
+}
+
+.chart1 {
+  max-width: 80vw;
+}
+
+.md-dialog-actions {
+  max-width: 80vw;
+}
+
+@media (max-width: 1200px) {
+  .md-dialog {
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+}

@@ -57,10 +57,10 @@
       <md-dialog-content>
         <div class="chart">
           <div v-if="isPieChart">
-            <ve-pie-chart :data="chart"/>
+            <ve-pie-chart class="chart1" :data="chart"/>
           </div>
           <div v-else>
-            <ve-bar-chart :data="chart"/>
+            <ve-bar-chart class="chart1" :data="chart"/>
           </div>
         </div>
       </md-dialog-content>
@@ -211,5 +211,8 @@ export default {
 <style scoped>
 .subartifact-table {
   margin-top: 15px;
+}
+.md-table-cell {
+  text-align: left;
 }
 </style>
