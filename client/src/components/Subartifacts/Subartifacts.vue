@@ -7,16 +7,12 @@
             <md-card-header>
               <div class="md-title">
                 <div class="main-content inline">
-                  <div class="content-line">{{ artifact.name }}</div>
+                  <div 
+                  @click="$router.push({ name: 'editartifact', params: { id: artifact._id } })"
+                  class="content-line">{{ artifact.name }}</div>
                 </div>
 
                 <div class="options-content inline">
-                  <div
-                    @click="$router.push({ name: 'editartifact', params: { id: artifact._id } })"
-                    class="inline"
-                  >
-                    <md-icon>reorder</md-icon>
-                  </div>
                   <div @click="deleteArtifact(artifact._id)" class="inline">
                     <md-icon>highlight_off</md-icon>
                   </div>
@@ -27,16 +23,12 @@
             <md-card-content>
               <div v-for="subartifact in artifact.subartifacts" v-bind:key="subartifact._id">
                 <div class="main-content inline">
-                  <div class="content-line">{{ subartifact.name }}</div>
+                  <div
+                   @click="$router.push({ name: 'editsubartifact', params: { id: subartifact._id, artifactId : artifact._id } })"
+                    class="content-line">{{ subartifact.name }}</div>
                 </div>
 
                 <div class="options-content inline">
-                  <div
-                    @click="$router.push({ name: 'editsubartifact', params: { id: subartifact._id, artifactId : artifact._id } })"
-                    class="inline"
-                  >
-                    <md-icon>reorder</md-icon>
-                  </div>
                   <div @click="deleteSubartifact(subartifact._id, artifact._id)" class="inline">
                     <md-icon>highlight_off</md-icon>
                   </div>

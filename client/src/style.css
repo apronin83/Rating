@@ -5,6 +5,10 @@
   vertical-align: top;
 }
 
+.md-card-content .options-content{
+  margin-left: 3px;
+}
+
 .chart{
   min-width:800px;
 }
@@ -42,7 +46,8 @@
 }
 
 .options-content {
-  width: 70px;
+  width: 80px;
+  text-align: right;
   cursor: pointer;
 }
 
@@ -81,6 +86,15 @@
   .main-content {
     width: calc(80vw - 75px);
   }
+}
+
+.main-content div {
+  cursor: pointer;
+}
+
+.main-content div:hover {
+  transition: .3s;
+  color: orangered;
 }
 
 .flex-container {

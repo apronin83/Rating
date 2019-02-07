@@ -7,16 +7,10 @@
             <md-card-header>
               <div class="md-title">
                 <div class="main-content inline">
-                  <div class="content-line">{{ group.name }}</div>
+                  <div @click="$router.push({ name: 'editgroup', params: { id: group._id } })" class="content-line">{{ group.name }}</div>
                 </div>
 
                 <div class="options-content inline">
-                  <div
-                    @click="$router.push({ name: 'editgroup', params: { id: group._id } })"
-                    class="inline"
-                  >
-                    <md-icon>reorder</md-icon>
-                  </div>
                   <div @click="deleteGroup(group._id)" class="inline">
                     <md-icon>highlight_off</md-icon>
                   </div>
@@ -26,16 +20,12 @@
             <md-card-content>
               <div v-for="point in group.points" v-bind:key="point._id">
                 <div class="main-content inline">
-                  <div class="content-line">{{ point.name }}</div>
+                  <div 
+                  @click="$router.push({ name: 'editpoint', params: { id: point._id, groupId : group._id } })"
+                  class="content-line">{{ point.name }}</div>
                 </div>
 
                 <div class="options-content inline">
-                  <div
-                    @click="$router.push({ name: 'editpoint', params: { id: point._id, groupId : group._id } })"
-                    class="inline"
-                  >
-                    <md-icon>reorder</md-icon>
-                  </div>
                   <div @click="deletePoint(point._id, group._id)" class="inline">
                     <md-icon>highlight_off</md-icon>
                   </div>
