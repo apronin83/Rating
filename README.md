@@ -4,6 +4,8 @@
 # **Info**:
 
    Project has written on **Vue.js 2** for *client* and **Node** for *server*
+   
+     Inside client/src/helpers/AppTypeHelper.js you can setup all text on front-end     
 
 # **Prerequirements**:
 
