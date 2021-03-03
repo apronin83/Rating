@@ -11,7 +11,7 @@
   "author": "Marat Zimnurov marat_zimnurov@mail.ru",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.1",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "mongoose": "^5.4.4",
