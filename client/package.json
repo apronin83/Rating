@@ -16,7 +16,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "echarts": "^4.2.0-rc.2",
-    "node-sass": "^4.11.0",
+    "node-sass": "^5.0.0",
     "sass-loader": "^7.1.0",
     "ve-charts": "^0.7.5",
     "vue": "^2.4.2",
