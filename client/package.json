@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "echarts": "^4.2.0-rc.2",
+    "echarts": "^5.2.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "ve-charts": "^0.7.5",
